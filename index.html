@@ -235,6 +235,46 @@
         #start-screen h1 { font-size: 26px; margin-bottom: 6px; }
         #start-screen p { color: #777; margin-bottom: 16px; font-size: 14px; }
         #quiz-screen { display: none; }
+
+        /* Ad slots */
+        .ad-slot {
+            width: 100%;
+            min-height: 90px;
+            background: #f0f2f5;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 12px 0;
+            font-size: 12px;
+            color: #aaa;
+            overflow: hidden;
+        }
+        body.dark .ad-slot { background: #2a2a3d; color: #555; }
+        .ad-slot:empty::after { content: ""; }
+        .ad-slot-bottom { margin-top: 16px; }
+
+        /* Support button */
+        #support-bar {
+            text-align: center;
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid #eee;
+        }
+        body.dark #support-bar { border-color: #333; }
+        .support-link {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #ff813f, #ff5722);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        .support-link:hover { transform: scale(1.05); opacity: 0.9; }
+        #support-bar small { display: block; margin-top: 6px; color: #999; font-size: 11px; }
     </style>
 </head>
 <body>
@@ -243,6 +283,11 @@
     <div id="top-bar">
         <span style="font-weight:700; font-size:16px;">Code de la Route 2026</span>
         <button id="theme-toggle" title="Tema">&#9790;</button>
+    </div>
+
+    <!-- Ad slot top (paste AdSense/YAN code inside) -->
+    <div class="ad-slot" id="ad-top">
+        <!-- AD CODE HERE -->
     </div>
 
     <!-- Start Screen -->
@@ -299,6 +344,17 @@
         <div id="results-stats"></div>
         <button class="results-btn btn-primary" id="restart-btn">&#128260; Новый экзамен</button>
         <button class="results-btn btn-secondary" id="retry-wrong-btn" style="display:none;">&#9888;&#65039; Повторить ошибки</button>
+    </div>
+
+    <!-- Ad slot bottom (paste AdSense/YAN code inside) -->
+    <div class="ad-slot ad-slot-bottom" id="ad-bottom">
+        <!-- AD CODE HERE -->
+    </div>
+
+    <!-- Support -->
+    <div id="support-bar">
+        <a class="support-link" href="https://buymeacoffee.com/ТВОЙ_ЛОГИН" target="_blank">&#9749; Buy me a coffee</a>
+        <small>Приложение бесплатное. Поддержи, если помогло!</small>
     </div>
 </div>
 

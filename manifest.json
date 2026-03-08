@@ -1,0 +1,17 @@
+{
+  "name": "Code de la Route — avec traduction russe",
+  "short_name": "Code Route RU",
+  "description": "Code de la Route avec traduction en russe",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%230f172a'/><circle cx='256' cy='220' r='150' fill='none' stroke='%231a56db' stroke-width='16'/><text x='256' y='200' text-anchor='middle' font-size='80' font-weight='bold' fill='%2360a5fa' font-family='sans-serif'>CODE</text><text x='256' y='260' text-anchor='middle' font-size='40' fill='white' font-family='sans-serif'>de la Route</text><rect x='156' y='380' width='200' height='70' rx='35' fill='%23dc2626'/><text x='256' y='425' text-anchor='middle' font-size='40' font-weight='bold' fill='white' font-family='sans-serif'>RUSSE</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

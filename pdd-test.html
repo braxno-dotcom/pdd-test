@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F3CE;</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F3CE;</text></svg>">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="PDD Test">
+    <title>Code de la Route 2026</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7529900678975882" crossorigin="anonymous"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+            transition: background 0.4s;
+        }
+        body.dark {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+        body.dark #card { background: #1e1e2f; color: #e0e0e0; }
+        body.dark .btn { background: #2a2a3d; border-color: #3a3a5c; color: #e0e0e0; }
+        body.dark .btn:hover { background: #35355a; }
+        body.dark #hint-text { background: #2a2a3d; color: #ccc; }
+        body.dark #score-container { color: #aaa; border-color: #333; }
+        body.dark #category-select { background: #2a2a3d; color: #e0e0e0; border-color: #3a3a5c; }
+
+        #card {
+            background: white;
+            padding: 24px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 540px;
+            animation: slideUp 0.5s ease;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        #theme-toggle {
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 8px;
+            transition: background 0.2s;
+            color: #333;
+        }
+        #theme-toggle:hover { background: rgba(0,0,0,0.05); }
+        body.dark #theme-toggle { color: #ffd43b; }
+
+        #score-container {
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #555;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        #timer-display {
+            font-weight: 700;
+            color: #e74c3c;
+            font-size: 15px;
+        }
+        #timer-display.warning { animation: pulse 1s infinite; }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        #progress-bar-container {
+            width: 100%;
+            height: 6px;
+            background: #e9ecef;
+            border-radius: 3px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+        body.dark #progress-bar-container { background: #333; }
+        #progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 3px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+
+        #category-bar {
+            margin-bottom: 14px;
+        }
+        #category-select {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            cursor: pointer;
+            background: #f8f9fa;
+            transition: all 0.2s;
+        }
+
+        #question {
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1.5;
+            margin-bottom: 16px;
+            animation: fadeIn 0.3s ease;
+        }
+        #category-badge {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px 16px;
+            margin: 8px 0;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            background: #fff;
+            cursor: pointer;
+            font-size: 15px;
+            text-align: left;
+            transition: all 0.25s ease;
+            animation: fadeIn 0.3s ease;
+        }
+        .btn:hover { background: #f0f2ff; border-color: #667eea; transform: translateX(4px); }
+        .btn:active { transform: scale(0.98); }
+        .correct {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb) !important;
+            border-color: #28a745 !important;
+            color: #155724;
+            transform: scale(1.02);
+        }
+        .wrong {
+            background: linear-gradient(135deg, #f8d7da, #f5c6cb) !important;
+            border-color: #dc3545 !important;
+            color: #721c24;
+        }
+        .btn.disabled { pointer-events: none; opacity: 0.6; }
+
+        #hint-text {
+            margin-top: 12px;
+            padding: 12px 14px;
+            background: #f0f2ff;
+            border-radius: 10px;
+            display: none;
+            font-style: italic;
+            color: #555;
+            border-left: 4px solid #667eea;
+            animation: fadeIn 0.3s ease;
+        }
+        #hint-btn {
+            text-align: center;
+            background: #f8f9fa;
+            font-weight: 500;
+            color: #667eea;
+            border-color: #667eea;
+        }
+        #next-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-align: center;
+            font-weight: 700;
+            margin-top: 16px;
+            display: none;
+            border: none;
+            font-size: 16px;
+        }
+        #next-btn:hover { transform: translateX(0) scale(1.02); opacity: 0.9; }
+
+        /* Results screen */
+        #results-screen { display: none; text-align: center; animation: fadeIn 0.5s ease; }
+        #results-screen h2 { font-size: 24px; margin-bottom: 8px; }
+        #results-circle {
+            width: 160px; height: 160px;
+            margin: 20px auto;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            font-weight: 800;
+            color: white;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+        #results-circle .label { font-size: 14px; font-weight: 400; opacity: 0.9; }
+        .result-pass { background: linear-gradient(135deg, #28a745, #20c997); }
+        .result-fail { background: linear-gradient(135deg, #dc3545, #e74c3c); }
+        #results-stats { margin: 20px 0; font-size: 15px; line-height: 2; }
+        .results-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            margin: 6px;
+            border-radius: 12px;
+            border: none;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .results-btn:hover { transform: scale(1.05); }
+        .btn-primary { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
+        .btn-secondary { background: #f0f2f5; color: #333; }
+        body.dark .btn-secondary { background: #2a2a3d; color: #e0e0e0; }
+
+        /* Start screen */
+        #start-screen { text-align: center; animation: fadeIn 0.5s ease; }
+        #start-screen h1 { font-size: 26px; margin-bottom: 6px; }
+        #start-screen p { color: #777; margin-bottom: 16px; font-size: 14px; }
+        #quiz-screen { display: none; }
+
+        /* Ad slots */
+        .ad-slot {
+            width: 100%;
+            min-height: 90px;
+            background: #f0f2f5;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 12px 0;
+            font-size: 12px;
+            color: #aaa;
+            overflow: hidden;
+        }
+        body.dark .ad-slot { background: #2a2a3d; color: #555; }
+        .ad-slot:empty::after { content: ""; }
+        .ad-slot-bottom { margin-top: 16px; }
+
+        /* Support button */
+        #support-bar {
+            text-align: center;
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid #eee;
+        }
+        body.dark #support-bar { border-color: #333; }
+        .support-link {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #ff813f, #ff5722);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        .support-link:hover { transform: scale(1.05); opacity: 0.9; }
+        #support-bar small { display: block; margin-top: 6px; color: #999; font-size: 11px; }
+    </style>
+</head>
+<body>
+
+<div id="card">
+    <div id="top-bar">
+        <span style="font-weight:700; font-size:16px;">Code de la Route 2026</span>
+        <button id="theme-toggle" title="Tema">&#9790;</button>
+    </div>
+
+    <!-- Ad slot top (paste AdSense/YAN code inside) -->
+    <div class="ad-slot" id="ad-top">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7529900678975882" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <!-- Start Screen -->
+    <div id="start-screen">
+        <h1>&#128663; Экзамен ПДД</h1>
+        <p>Франция &mdash; Code de la Route</p>
+        <div id="category-bar">
+            <select id="category-select">
+                <option value="all">Все категории</option>
+                <option value="speed">&#128680; Скорость и правила</option>
+                <option value="priority">&#9888;&#65039; Приоритеты</option>
+                <option value="tech">&#128295; Техника и безопасность</option>
+                <option value="health">&#128138; Водитель и здоровье</option>
+                <option value="visibility">&#128161; Дорога и видимость</option>
+                <option value="eco">&#127807; Эко-вождение</option>
+                <option value="firstaid">&#9971; Первая помощь</option>
+                <option value="admin">&#128196; Административное</option>
+            </select>
+        </div>
+        <div style="margin-bottom:14px;">
+            <label style="font-size:14px; color:#777;">
+                <input type="checkbox" id="timer-toggle" checked> Таймер (20 мин)
+            </label>
+        </div>
+        <button class="results-btn btn-primary" id="start-btn" style="width:100%; padding:16px; font-size:17px;">Начать экзамен &#8594;</button>
+        <div id="mistakes-info" style="margin-top:12px; display:none;">
+            <button class="results-btn btn-secondary" id="retry-mistakes-btn" style="width:100%;">&#128260; Повторить ошибки (<span id="mistakes-count">0</span>)</button>
+        </div>
+    </div>
+
+    <!-- Quiz Screen -->
+    <div id="quiz-screen">
+        <div id="score-container">
+            <span>&#9989; <span id="score">0</span> | &#10060; <span id="wrong-count">0</span></span>
+            <span>Вопрос <span id="q-num">1</span>/<span id="q-total">0</span></span>
+            <span id="timer-display">20:00</span>
+        </div>
+        <div id="progress-bar-container"><div id="progress-bar"></div></div>
+        <div id="category-badge"></div>
+        <h2 id="question">Загрузка...</h2>
+        <div id="options"></div>
+        <div id="hint-text"></div>
+        <button id="hint-btn" class="btn">Перевод (RU)</button>
+        <button id="next-btn" class="btn">Дальше &#8594;</button>
+    </div>
+
+    <!-- Results Screen -->
+    <div id="results-screen">
+        <h2 id="results-title"></h2>
+        <div id="results-circle">
+            <span id="results-score"></span>
+            <span class="label">из <span id="results-total"></span></span>
+        </div>
+        <div id="results-stats"></div>
+        <button class="results-btn btn-primary" id="restart-btn">&#128260; Новый экзамен</button>
+        <button class="results-btn btn-secondary" id="retry-wrong-btn" style="display:none;">&#9888;&#65039; Повторить ошибки</button>
+    </div>
+
+    <!-- Ad slot bottom (paste AdSense/YAN code inside) -->
+    <div class="ad-slot ad-slot-bottom" id="ad-bottom">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7529900678975882" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+</div>
+
+<script>
+// ВСТАВЬ СВОИ ВОПРОСЫ НИЖЕ ЭТОЙ СТРОКИ
+const questions = [
+    
+    // --- ПРАВИЛА И СКОРОСТЬ ---
+    {q: "Sur autoroute par beau temps, la vitesse est limitée à :", q_ru: "На трассе при хорошей погоде скорость ограничена:", o: ["130 km/h", "110 km/h", "100 km/h"], a: 0},
+    {q: "En cas de pluie sur autoroute, la vitesse maximale passe à :", q_ru: "В дождь на трассе макс. скорость снижается до:", o: ["110 km/h", "130 km/h"], a: 0},
+    {q: "La vitesse est limitée à 80 km/h sur les routes sans séparateur central :", q_ru: "Скорость 80 км/ч на дорогах без разделителя:", o: ["Vrai", "Faux"], a: 0},
+    {q: "En ville, la vitesse est limitée par défaut à :", q_ru: "В городе скорость по умолчанию ограничена:", o: ["50 km/h", "30 km/h", "70 km/h"], a: 0},
+    {q: "Un jeune conducteur (A) sur autoroute est limité à :", q_ru: "Новичок (А) на трассе ограничен скоростью:", o: ["110 km/h", "130 km/h", "100 km/h"], a: 0},
+    {q: "Dans une zone 30, la vitesse maximale est de :", q_ru: "В зоне 30 макс. скорость составляет:", o: ["30 km/h", "20 km/h"], a: 0},
+    {q: "Une zone de rencontre est limitée à :", q_ru: "Жилая зона (zone de rencontre) ограничена:", o: ["20 km/h", "30 km/h"], a: 0},
+    {q: "Le brouillard réduit la visibilité à 50m, je roule à :", q_ru: "Туман, видимость 50м, я еду на скорости:", o: ["50 km/h", "70 km/h"], a: 0},
+    {q: "L'énergie cinétique quadruple si la vitesse est doublée :", q_ru: "Кинетическая энергия растет в 4 раза при двойной скорости:", o: ["Vrai", "Faux"], a: 0},
+    {q: "La distance d'arrêt se calcule par : Vitesse(dizaine) x elle-même :", q_ru: "Путь остановки: десятки скорости умножить на себя:", o: ["Vrai", "Faux"], a: 0},
+
+    // --- ПРИОРИТЕТЫ ---
+    {q: "À une intersection sans signalisation, la priorité est à :", q_ru: "На перекрестке без знаков приоритет:", o: ["Droite", "Gauche"], a: 0},
+    {q: "Un panneau STOP m'oblige à marquer l'arrêt complet :", q_ru: "Знак СТОП обязывает полностью остановиться:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Dans un rond-point (giratoire), je cède le passage à :", q_ru: "На круге я уступаю дорогу тем, кто:", o: ["Est déjà engagé (à gauche)", "Arrive à droite"], a: 0},
+    {q: "Un piéton engagé sur la chaussée est prioritaire :", q_ru: "Пешеход на проезжей части имеет приоритет:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Je tourne à gauche, je cède le passage aux usagers d'en face :", q_ru: "Поворачиваю налево, уступаю встречным:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Le tramway est prioritaire même s'il vient de gauche :", q_ru: "Трамвай главный, даже если он слева:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Un véhicule de police avec sirène 2 tons est prioritaire :", q_ru: "Полиция с 2-тональной сиреной приоритетна:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Une ambulance privée (3 tons) est prioritaire :", q_ru: "Частная скорая (3 тона) приоритетна:", o: ["Faux (facilités de passage)", "Vrai"], a: 0},
+    {q: "La ligne de Stop est une ligne continue :", q_ru: "Линия СТОП — это сплошная линия:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Le panneau 'Cédez le passage' n'oblige pas l'arrêt si libre :", q_ru: "Знак 'Уступи' не требует остановки, если путь свободен:", o: ["Vrai", "Faux"], a: 0},
+
+    // --- ТЕХНИКА И БЕЗОПАСНОСТЬ ---
+    {q: "L'ABS empêche le blocage des roues :", q_ru: "ABS предотвращает блокировку колес:", o: ["Vrai", "Faux"], a: 0},
+    {q: "L'ESP corrige la trajectoire en cas de dérapage :", q_ru: "ESP корректирует траекторию при заносе:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Le témoin d'usure des pneus doit être au minimum à :", q_ru: "Мин. высота протектора (индикатор износа):", o: ["1,6 mm", "2 mm", "1 mm"], a: 0},
+    {q: "Un pneu sous-gonflé peut éclater sur l'autoroute :", q_ru: "Спущенная шина может лопнуть на трассе:", o: ["Vrai", "Faux"], a: 0},
+    {q: "La pression des pneus se vérifie à froid :", q_ru: "Давление в шинах проверяется на холодную:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Le gilet jaune doit être accessible dans l'habitacle :", q_ru: "Светоотражающий жилет должен быть под рукой в салоне:", o: ["Vrai", "Faux"], a: 0},
+    {q: "L'airbag passager doit être coupé pour un siège bébé dos à la route :", q_ru: "Подушку пассажира нужно выключить для кресла 'спиной вперед':", o: ["Vrai", "Faux"], a: 0},
+    {q: "Un voyant rouge allumé signifie 'Arrêt immédiat' :", q_ru: "Красная лампа означает немедленную остановку:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Le liquide de refroidissement se vérifie moteur froid :", q_ru: "Антифриз проверяется на холодном двигателе:", o: ["Vrai", "Faux"], a: 0},
+    {q: "L'AFU aide à freiner plus fort en urgence :", q_ru: "AFU помогает тормозить сильнее при экстренном случае:", o: ["Vrai", "Faux"], a: 0},
+
+    // --- ВОДИТЕЛЬ И ЗДОРОВЬЕ ---
+    {q: "Le temps de réaction d'un conducteur normal est de :", q_ru: "Время реакции обычного водителя:", o: ["1 seconde", "0,5 seconde", "2 secondes"], a: 0},
+    {q: "Le taux d'alcool pour un permis probatoire est de :", q_ru: "Лимит алкоголя для новичка:", o: ["0,20 g/l", "0,50 g/l"], a: 0},
+    {q: "L'alcoolémie devient un délit à partir de :", q_ru: "Алкоголь становится преступлением с:", o: ["0,80 g/l", "0,50 g/l"], a: 0},
+    {q: "Le cannabis multiplie le risque d'accident :", q_ru: "Каннабис увеличивает риск аварии:", o: ["Vrai", "Faux"], a: 0},
+    {q: "La fatigue augmente le temps de réaction :", q_ru: "Усталость увеличивает время реакции:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Un médicament niveau 3 (triangle rouge) interdit la conduite :", q_ru: "Лекарство 3 уровня (красный треугольник) запрещает вождение:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Le champ visuel se rétrécit avec la vitesse :", q_ru: "Поле зрения сужается с ростом скорости:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Téléphone tenu en main = retrait de 3 points :", q_ru: "Телефон в руке = минус 3 балла:", o: ["Vrai", "Faux"], a: 0},
+    {q: "L'alcool est éliminé par le foie à raison de 0,10g à 0,15g par heure :", q_ru: "Алкоголь выводится печенью по 0,10-0,15г в час:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Regarder son téléphone pendant 2 secondes à 50 km/h = 28 mètres parcourus :", q_ru: "2 секунды в телефоне на 50 км/ч = 28 метров 'вслепую':", o: ["Vrai", "Faux"], a: 0},
+
+    // --- ДОРОГА И ВИДИМОСТЬ ---
+    {q: "Les feux de brouillard arrière sont interdits sous la pluie :", q_ru: "Задние туманки запрещены в дождь:", o: ["Vrai", "Faux"], a: 0},
+    {q: "L'aquaplanage arrive quand l'eau n'est plus évacuée par les pneus :", q_ru: "Аквапланирование — когда вода не уходит из-под шин:", o: ["Vrai", "Faux"], a: 0},
+    {q: "En agglomération éclairée, je roule en feux de croisement :", q_ru: "В освещенном городе еду на ближнем свете:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Sur autoroute, les traits de la bande d'arrêt d'urgence font :", q_ru: "Штрихи полосы аварийной остановки имеют длину:", o: ["39 mètres", "20 mètres"], a: 0},
+    {q: "Une flèche de rabattement m'oblige à changer de voie :", q_ru: "Стрелка перестроения обязывает сменить полосу:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Le marquage jaune au sol indique des travaux :", q_ru: "Желтая разметка означает дорожные работы:", o: ["Vrai", "Faux"], a: 0},
+    {q: "La ligne de dissuasion permet de doubler un véhicule lent :", q_ru: "Линия 'сдерживания' разрешает обгон медленного транспорта:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Un triangle de présignalisation est placé à environ :", q_ru: "Знак аварийной остановки ставится примерно за:", o: ["30 mètres", "10 mètres", "100 mètres"], a: 0},
+    {q: "L'intervalle de sécurité entre 2 voitures est de 2 secondes :", q_ru: "Безопасный интервал между авто — 2 секунды:", o: ["Vrai", "Faux"], a: 0},
+    {q: "La distance de sécurité sur autoroute = 2 traits de la BAU :", q_ru: "Дистанция на трассе = 2 штриха боковой линии:", o: ["Vrai", "Faux"], a: 0},
+
+    // --- ЭКО-ВОЖДЕНИЕ ---
+    {q: "Le système Stop & Start permet d'économiser du carburant :", q_ru: "Система Stop & Start экономит топливо:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Un coffre de toit vide augmente la consommation :", q_ru: "Пустой багажник на крыше увеличивает расход:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Passer les vitesses à bas régime est plus écologique :", q_ru: "Переключение на низких оборотах экологичнее:", o: ["Vrai", "Faux"], a: 0},
+    {q: "L'utilisation de la clim augmente la consommation :", q_ru: "Использование кондиционера растит расход:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Un moteur froid consomme plus qu'un moteur chaud :", q_ru: "Холодный мотор ест больше горячего:", o: ["Vrai", "Faux"], a: 0},
+    {q: "L'éco-conduite réduit aussi l'usure des pneus :", q_ru: "Эко-вождение также снижает износ шин:", o: ["Vrai", "Faux"], a: 0},
+    {q: "AdBlue réduit les oxydes d'azote (NOx) :", q_ru: "AdBlue снижает выбросы оксидов азота:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Le covoiturage réduit les bouchons :", q_ru: "Совместные поездки уменьшают пробки:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Rouler les vitres ouvertes à haute vitesse consomme plus :", q_ru: "Езда с открытыми окнами на скорости ест больше топлива:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Le filtre à particules (FAP) équipe les diesels récents :", q_ru: "Сажевый фильтр (FAP) стоит на новых дизелях:", o: ["Vrai", "Faux"], a: 0},
+
+    // --- ПЕРВАЯ ПОМОЩЬ ---
+    {q: "Le numéro d'urgence européen est le 112 :", q_ru: "Европейский номер экстренной помощи — 112:", o: ["Vrai", "Faux"], a: 0},
+    {q: "La PLS évite l'étouffement d'une personne inconsciente :", q_ru: "Поза PLS предотвращает удушье человека без сознания:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Je ne dois pas déplacer un blessé sauf danger immédiat :", q_ru: "Нельзя трогать раненого без крайней угрозы жизни:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Le massage cardiaque se fait sur une victime qui ne respire plus :", q_ru: "Массаж сердца делается, если жертва не дышит:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Le numéro des pompiers est le 18 :", q_ru: "Номер пожарных — 18:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Le numéro du SAMU est le 15 :", q_ru: "Номер скорой помощи (SAMU) — 15:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Le sigle P.A.S. veut dire : Protéger, Alerter, Secourir :", q_ru: "P.A.S. означает: Оградить, Сообщить, Помочь:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Un défibrillateur (DAE) peut être utilisé par n'importe qui :", q_ru: "Дефибриллятор может использовать любой человек:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Le gilet jaune permet d'être vu à 150 mètres :", q_ru: "Желтый жилет позволяет быть видимым за 150 метров:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Le garrot ne doit être utilisé qu'en dernier recours :", q_ru: "Жгут используется только в самом крайнем случае:", o: ["Vrai", "Faux"], a: 0},
+
+    // --- АДМИНИСТРАТИВНОЕ ---
+    {q: "Le certificat d'immatriculation s'appelle la Carte Grise :", q_ru: "Техпаспорт называется Carte Grise:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Le constat amiable doit être envoyé sous 5 jours ouvrés :", q_ru: "Европротокол нужно отправить за 5 рабочих дней:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Le contrôle technique se fait tous les 2 ans pour les voitures de +4 ans :", q_ru: "Техосмотр каждые 2 года для машин старше 4 лет:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Un refus de priorité coûte 4 points sur le permis :", q_ru: "Непредоставление приоритета стоит 4 балла:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Un excès de vitesse de +50 km/h est un délit :", q_ru: "Превышение скорости на 50+ км/ч — это преступление:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Le permis probatoire possède 6 points au départ :", q_ru: "Испытательный срок начинается с 6 баллов:", o: ["Vrai", "Faux"], a: 0},
+    {q: "L'assurance 'au tiers' est le minimum légal :", q_ru: "Страховка 'третьим лицам' — законный минимум:", o: ["Vrai", "Faux"], a: 0},
+    {q: "En cas de vente, le vendeur remet un certificat de cession :", q_ru: "При продаже продавец отдает сертификат передачи:", o: ["Vrai", "Faux"], a: 0},
+    {q: "La vignette Crit'Air classe les voitures par pollution :", q_ru: "Наклейка Crit'Air делит авто по уровню выбросов:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Un stage de récupération permet de gagner 4 points :", q_ru: "Курсы восстановления дают вернуть 4 балла:", o: ["Vrai", "Faux"], a: 0},
+
+    // --- ЛОВУШКИ И ДЕТАЛИ ---
+    {q: "L'écartement pour doubler un vélo hors ville est de 1,5m :", q_ru: "Боковой интервал до велосипеда вне города — 1,5м:", o: ["Vrai", "Faux"], a: 0},
+    {q: "L'écartement pour doubler un vélo en ville est de 1m :", q_ru: "Боковой интервал до велосипеда в городе — 1м:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Une balise blanche à chapeau bleu indique la neige :", q_ru: "Белый столб с синей шапкой указывает на снег (край дороги):", o: ["Vrai", "Faux"], a: 0},
+    {q: "Un voyant orange indique une anomalie non critique :", q_ru: "Оранжевая лампа — важная, но не критичная ошибка:", o: ["Vrai", "Faux"], a: 0},
+    {q: "La force centrifuge déporte la voiture vers l'extérieur du virage :", q_ru: "Центробежная сила выносит машину из поворота наружу:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Le frein moteur aide à ralentir sans user les freins :", q_ru: "Торможение двигателем помогает не стирать колодки:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Un délit de fuite retire 6 points automatiquement :", q_ru: "Побег с места ДТП — это минус 6 баллов автоматом:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Le voyant des feux de route est bleu :", q_ru: "Индикатор дальнего света — синий:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Une zone bleue est un stationnement gratuit limité :", q_ru: "Синяя зона — бесплатная парковка, ограниченная временем:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Le système eCall appelle les secours en cas de choc violent :", q_ru: "eCall вызывает помощь при сильном ударе:", o: ["Vrai", "Faux"], a: 0},
+
+    // --- ФИНАЛЬНЫЕ ---
+    {q: "Les pneus hiver sont obligatoires dans certaines régions (Loi Montagne) :", q_ru: "Зимние шины обязательны в ряде регионов (Loi Montagne):", o: ["Vrai", "Faux"], a: 0},
+    {q: "Un enfant de moins de 10 ans doit être à l'arrière :", q_ru: "Ребенок до 10 лет должен сидеть сзади:", o: ["Vrai", "Faux"], a: 0},
+    {q: "La ligne d'avertissement annonce une ligne continue :", q_ru: "Линия предупреждения сообщает о начале сплошной:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Un voyant de batterie allumé en roulant = alternateur en panne :", q_ru: "Лампа АКБ в движении = генератор сломался:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Le 'croisement indonésien' se fait en passant devant l'autre :", q_ru: "Индонезийский разъезд делается перед другой машиной:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Un médicament niveau 2 demande de la vigilance :", q_ru: "Лекарство 2 уровня требует осторожности при вождении:", o: ["Vrai", "Faux"], a: 0},
+    {q: "La distance de réaction à 90 km/h est de 27 mètres :", q_ru: "Путь реакции на 90 км/ч составляет 27 метров:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Une batterie faible empêche le Stop & Start :", q_ru: "Слабая батарея отключает систему Stop & Start:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Le Klaxon est interdit la nuit sauf danger :", q_ru: "Сигналить ночью запрещено, кроме опасных ситуаций:", o: ["Vrai", "Faux"], a: 0},
+    {q: "Le niveau d'huile se vérifie sur sol plat :", q_ru: "Уровень масла проверяется на ровной поверхности:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un arrêt de bus est zébré de jaune : j'ai le droit de :", q_ru: "Остановка автобуса с желтым зигзагом: я имею право:", o: ["Circuler dessus", "M'y arrêter", "M'y garer"], a: 0},
+        {q: "La distance de sécurité dans un tunnel est de :", q_ru: "Дистанция безопасности в тоннеле:", o: ["2 diodes bleues", "1 diode bleue", "50 mètres"], a: 0},
+        {q: "Le marquage bleu au sol indique un stationnement :", q_ru: "Синяя разметка на земле означает парковку:", o: ["Gratuit à durée limitée (disque)", "Payant", "Réservé aux handicapés"], a: 0},
+        {q: "Un piéton avec un brassard jaune et 3 points noirs est :", q_ru: "Пешеход с желтой повязкой и 3 точками — это:", o: ["Malentendant", "Malvoyant", "Enfant seul"], a: 0},
+        {q: "Le système AFU permet de réduire la distance de freinage :", q_ru: "Система AFU позволяет сократить тормозной путь:", o: ["Vrai", "Faux"], a: 0},
+        {q: "La consommation de carburant augmente de 25% si les pneus sont :", q_ru: "Расход топлива растет на 25%, если шины:", o: ["Sous-gonflés", "Sur-gonflés"], a: 0},
+        {q: "Le constat amiable peut être rempli sur smartphone (e-constat) :", q_ru: "Европротокол можно заполнить в смартфоне:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Une balise blanche avec un sommet jaune indique :", q_ru: "Белый столбик с желтым верхом означает:", o: ["Un obstacle", "Un virage", "Un passage à niveau"], a: 0},
+        {q: "En cas de contrôle, l'absence de gilet jaune est punie par :", q_ru: "Отсутствие жилета при проверке карается:", o: ["Une amende", "Un retrait de points", "La prison"], a: 0},
+        {q: "Le niveau d'huile se vérifie moteur tournant :", q_ru: "Уровень масла проверяется при заведенном моторе:", o: ["Faux", "Vrai"], a: 0},
+        {q: "Une voiture électrique fait du bruit en dessous de 30 km/h (AVAS) :", q_ru: "Электрокар шумит (AVAS) на скорости ниже 30 км/ч:", o: ["Vrai (pour les piétons)", "Faux"], a: 0},
+        {q: "Un feu jaune clignotant en bas d'un feu tricolore signifie :", q_ru: "Мигающий желтый внизу светофора означает:", o: ["Passage prudent (priorité inchangée)", "Arrêt obligatoire"], a: 0},
+        {q: "Le permis de conduire est suspendu à partir d'un excès de :", q_ru: "Права изымают при превышении скорости на:", o: ["40 km/h ou +", "20 km/h", "30 km/h"], a: 0},
+        {q: "La force centrifuge est divisée par 2 si la vitesse est divisée par 2 :", q_ru: "Центробежная сила падает в 2 раза, если скорость упала в 2 раза:", o: ["Faux (divisée par 4)", "Vrai"], a: 0},
+        {q: "Le voyant des feux de brouillard AVANT est de couleur :", q_ru: "Индикатор ПЕРЕДНИХ туманок на панели:", o: ["Verte", "Orange", "Bleue"], a: 0},
+        {q: "Le non-respect d'un arrêt au panneau STOP retire :", q_ru: "Проезд знака СТОП без полной остановки — это минус:", o: ["4 points", "2 points", "6 points"], a: 0},
+        {q: "Circuler en sens interdit retire sur le permis :", q_ru: "Езда по встречке (против движения) — это минус:", o: ["4 points", "6 points", "3 points"], a: 0},
+        {q: "Le non-port de la ceinture de sécurité retire :", q_ru: "Непристегнутый ремень — это минус:", o: ["3 points", "1 point", "6 points"], a: 0},
+        {q: "Le franchissement d'une ligne continue retire :", q_ru: "Пересечение сплошной линии — это минус:", o: ["3 points", "1 point", "4 points"], a: 0},
+        {q: "Un chevauchement de ligne continue (rouler dessus sans franchir) retire :", q_ru: "Наезд на сплошную (без полного пересечения) — это минус:", o: ["1 point", "3 points"], a: 0},
+        {q: "Le non-respect de la priorité aux piétons retire :", q_ru: "Если не уступил пешеходу — это минус:", o: ["6 points", "4 points", "2 points"], a: 0},
+        {q: "L'usage du téléphone tenu en main retire :", q_ru: "Телефон в руке во время езды — это минус:", o: ["3 points", "6 points", "1 point"], a: 0},
+        {q: "Un taux d'alcoolémie délictuel (>= 0,8g/l) retire d'office :", q_ru: "Уголовный уровень алкоголя (0.8+) — это минус:", o: ["6 points", "4 points", "8 points"], a: 0},
+        {q: "Le non-respect des distances de sécurité retire :", q_ru: "Несоблюдение дистанции безопасности — это минус:", o: ["3 points", "2 points", "4 points"], a: 0},
+        {q: "L'oubli d'un clignotant lors d'un changement de direction retire :", q_ru: "Забыл включить поворотник — это минус:", o: ["3 points", "1 point", "2 points"], a: 0},
+        {q: "Une balise blanche à sommet bleu sert à guider :", q_ru: "Белый столбик с синим верхом помогает:", o: ["Les engins de déneigement", "Les cyclistes", "Les piétons"], a: 0},
+        {q: "Le voyant des feux de brouillard ARRIÈRE est de couleur :", q_ru: "Индикатор ЗАДНИХ туманок на панели:", o: ["Orange", "Verte", "Bleue"], a: 0},
+        {q: "Sur autoroute, en cas de panne, je dois sortir :", q_ru: "На трассе при поломке я должен выйти:", o: ["Par la portière droite (côté passager)", "Par la portière gauche"], a: 0},
+        {q: "Le contrôle technique d'une voiture neuve se fait au bout de :", q_ru: "Первый техосмотр новой машины делается через:", o: ["4 ans", "2 ans", "5 ans"], a: 0},
+        {q: "La distance de sécurité dans un tunnel est de 2 diodes bleues :", q_ru: "Дистанция в тоннеле — это 2 синих диода:", o: ["Même à l'arrêt", "Seulement en roulant"], a: 0},
+
+        {q: "Ce panneau indique une fin de priorité :", q_ru: "Этот знак (желтый ромб, перечеркнутый черной полосой) означает конец главной дороги:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un panneau de forme triangulaire avec un liseré rouge est :", q_ru: "Треугольный знак с красной каймой — это:", o: ["Un danger", "Une interdiction", "Une obligation"], a: 0},
+        {q: "Un panneau rond avec un liseré rouge est :", q_ru: "Круглый знак с красной каймой — это:", o: ["Une interdiction", "Une obligation", "Une fin d'interdiction"], a: 0},
+        {q: "Un panneau rond bleu est :", q_ru: "Круглый синий знак — это:", o: ["Une obligation", "Une indication", "Une interdiction"], a: 0},
+        {q: "Un panneau carré bleu est :", q_ru: "Квадратный синий знак — это:", o: ["Une indication / information", "Une obligation"], a: 0},
+        {q: "La balise J4 (blanche avec des chevrons bleus) indique :", q_ru: "Столбик с синими стрелками-шеврончиками (J4) указывает на:", o: ["Un virage dangereux", "Une intersection", "Un passage à niveau"], a: 0},
+        {q: "Le panneau 'Sens interdit' interdit l'accès à tous les usagers :", q_ru: "Знак 'Въезд запрещен' (кирпич) закрывает доступ всем:", o: ["Vrai (sauf vélos si marqué)", "Faux"], a: 0},
+        {q: "Le panneau 'Fin de toutes les interdictions' est de couleur :", q_ru: "Знак 'Конец всех ограничений' (серый с черной полосой):", o: ["Gris et noir", "Bleu et blanc"], a: 0},
+        {q: "Un feu vert ne me donne pas la priorité si le carrefour est encombré :", q_ru: "Зеленый свет не дает права ехать, если перекресток забит:", o: ["Vrai (je reste avant la ligne)", "Faux (je passe)"], a: 0},
+        {q: "À un feu rouge, je peux tourner à droite si :", q_ru: "На красный можно повернуть направо, если:", o: ["Un panonceau avec un vélo jaune clignote", "Je fais attention"], a: 0},
+        {q: "La ligne d'effet du signal (Stop/Cédez le passage) est :", q_ru: "Линия, у которой надо остановиться (СТОП), наносится:", o: ["À la limite de la chaussée transversale", "Au niveau du panneau"], a: 0},
+        {q: "Un panneau rectangulaire avec un fond marron indique :", q_ru: "Прямоугольный коричневый знак указывает на:", o: ["Un lieu touristique ou culturel", "Une zone de travaux", "Une autoroute"], a: 0},
+        {q: "Le panneau de stationnement interdit est barré d'un seul trait rouge :", q_ru: "Знак 'Стоянка запрещена' перечеркнут одной красной полосой:", o: ["Vrai", "Faux (deux traits = arrêt interdit)"], a: 0},
+        {q: "Le voyant de préchauffage (diesel) ressemble à :", q_ru: "Индикатор прогрева свечей (дизель) похож на:", o: ["Une spirale orange", "Une pompe à essence", "Un thermomètre"], a: 0},
+        {q: "Le triangle de présignalisation doit être visible à :", q_ru: "Знак аварийной остановки должен быть виден за:", o: ["100 mètres", "50 mètres", "20 mètres"], a: 0},
+  {q: "La distance de freinage est multipliée par 9 si la vitesse est :", q_ru: "Тормозной путь вырастет в 9 раз, если скорость:", o: ["Triplée (x3)", "Doublée (x2)"], a: 0},
+        {q: "Un voyant d'huile moteur rouge s'allume : je peux finir mon trajet :", q_ru: "Загорелась красная масленка: я могу доехать до конца:", o: ["Faux (arrêt immédiat)", "Vrai"], a: 0},
+        {q: "Les feux de route doivent éclairer à au moins :", q_ru: "Дальний свет должен светить минимум на:", o: ["100 mètres", "50 mètres", "150 mètres"], a: 0},
+        {q: "Le temps de réaction d'un conducteur fatigué est d'environ :", q_ru: "Время реакции уставшего водителя примерно:", o: ["2 secondes", "1 seconde", "0,5 seconde"], a: 0},
+        {q: "En cas de contrôle, je dois présenter l'original du permis :", q_ru: "При проверке я должен показать оригинал прав:", o: ["Vrai", "Faux (la photocopie suffit)"], a: 0 },   {q: "Un enfant peut être installé à l'avant si le véhicule n'a pas de siège arrière :", q_ru: "Ребенка можно посадить вперед, если в машине нет задних сидений:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le franchissement d'une ligne de rive (à droite) est autorisé pour :", q_ru: "Пересечение линии края дороги (справа) разрешено для:", o: ["S'arrêter en cas de nécessité", "Dépasser un véhicule lent"], a: 0},
+        {q: "Le voyant des feux de route (bleu) m'éblouit, je peux l'éteindre :", q_ru: "Синяя лампа на панели слепит меня, я могу её выключить:", o: ["Faux (elle est obligatoire)", "Vrai"], a: 0},
+        {q: "La distance de sécurité doit être augmentée en cas de pluie :", q_ru: "Дистанцию безопасности нужно увеличить в дождь:", o: ["Vrai (doubler la distance)", "Faux"], a: 0},
+        {q: "Un cycliste a le droit de circuler au milieu de la chaussée en ville :", q_ru: "Велосипедист имеет право ехать посередине полосы в городе:", o: ["Vrai (si la zone est étroite)", "Faux"], a: 0 },{q: "La ligne d'avertissement (pointillés serrés) interdit le dépassement :", q_ru: "Линия предупреждения (частые штрихи) запрещает обгон:", o: ["Faux (elle l'annonce)", "Vrai"], a: 0},{q: "Un pneu dont la pression est trop basse augmente la distance de freinage :", q_ru: "Слишком низкое давление в шинах увеличивает тормозной путь:", o: ["Vrai", "Faux"], a: 0},{q: "Le voyant de liquide de frein est de couleur :", q_ru: "Индикатор тормозной жидкости на панели:", o: ["Rouge", "Orange", "Bleue"], a: 0},
+        {q: "À 50 km/h, la distance parcourue pendant le temps de réaction est :", q_ru: "На 50 км/ч путь за время реакции составляет:", o: ["15 mètres", "5 mètres", "25 mètres"], a: 0},
+        {q: "L'assurance responsabilité civile couvre mes propres dégâts :", q_ru: "Страховка гражданской ответственности покрывает мой ущерб:", o: ["Faux (seulement les autres)", "Vrai"], a: 0},
+        {q: "Le niveau de liquide lave-glace est obligatoire pour circuler :", q_ru: "Наличие омывайки обязательно для движения:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un dépassement par la droite est autorisé si le véhicule devant tourne à gauche :", q_ru: "Обгон справа разрешен, если машина впереди поворачивает налево:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Sur une route à 3 voies, je peux utiliser la voie la plus à gauche :", q_ru: "На дороге с 3 полосами я могу ехать в самой левой:", o: ["Si la route est à sens unique", "Jamais"], a: 0},{q: "Le panneau 'Fin de zone 30' remet la vitesse à 50 km/h en ville :", q_ru: "Знак 'Конец зоны 30' возвращает лимит 50 км/ч в городе:", o: ["Vrai", "Faux"], a: 0},
+        {q: "La distance de sécurité latérale avec un piéton en ville est de :", q_ru: "Боковой интервал до пешехода в городе:", o: ["1 mètre", "1,5 mètre"], a: 0},       {q: "Un véhicule d'intérêt général prioritaire utilise :", q_ru: "Транспорт общего интереса (приоритетный) использует:", o: ["Une sirène 2 tons et gyrophare bleu", "Une sirène 3 tons", "Un gyrophare orange"], a: 0},
+        {q: "Je dois faciliter le passage d'une ambulance (3 tons) même si elle n'est pas prioritaire :", q_ru: "Я должен облегчить проезд скорой (3 тона), даже если она не в приоритете:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un véhicule de déneigement en intervention est prioritaire :", q_ru: "Снегоуборочная машина во время работы приоритетна:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le gyrophare bleu d'un camion de pompiers m'oblige à céder le passage :", q_ru: "Синий маячок пожарной машины обязывает меня уступить дорогу:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un convoi exceptionnel est toujours prioritaire aux intersections :", q_ru: "Спецконвой (негабарит) всегда имеет приоритет на перекрестках:", o: ["Vrai (s'il est accompagné)", "Faux"], a: 0},
+        {q: "Le panneau 'Hôpital' m'interdit de klaxonner :", q_ru: "Знак 'Больница' запрещает мне сигналить:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un bus qui quitte son arrêt en agglomération est prioritaire :", q_ru: "Автобус, отъезжающий от остановки в городе, приоритетен:", o: ["Vrai (je dois ralentir)", "Faux"], a: 0},
+        {q: "Le signal d'urgence (warning) s'utilise en cas de ralentissement brusque :", q_ru: "Аварийку включают при резком замедлении потока:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un piéton traversant hors des clous est prioritaire dès qu'il s'engage :", q_ru: "Пешеход вне перехода приоритетен, как только начал движение:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le passage à niveau est annoncé par un panneau triangulaire avec :", q_ru: "Переезд обозначается треугольным знаком с:", o: ["Une barrière ou une locomotive", "Un éclair"], a: 0},      {q: "La climatisation augmente la consommation de carburant de :", q_ru: "Кондиционер увеличивает расход топлива на:", o: ["15% environ", "5% environ", "30% environ"], a: 0},
+        {q: "Couper le moteur lors d'un arrêt de plus de 20 secondes est utile :", q_ru: "Глушить мотор при остановке более 20 секунд полезно:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Sur autoroute, rouler à 120 km/h au lieu de 130 km/h économise :", q_ru: "На трассе езда 120 вместо 130 экономит:", o: ["1 litre aux 100 km", "5 litres aux 100 km"], a: 0},
+        {q: "L'éco-conduite permet de réduire les accidents de :", q_ru: "Эко-вождение снижает риск аварий на:", o: ["10 à 15%", "50%", "2%"], a: 0},
+        {q: "Le recyclage des batteries de voitures électriques est obligatoire :", q_ru: "Переработка аккумуляторов электрокаров обязательна:", o: ["Vrai", "Faux"], a: 0},
+        {q: "La pression des pneus influe sur la pollution :", q_ru: "Давление в шинах влияет на загрязнение среды:", o: ["Vrai (sous-gonflage = + de conso)", "Faux"], a: 0},
+        {q: "Un pneu 'hiver' (3PMSF) est obligatoire en montagne en hiver :", q_ru: "Зимняя шина (3PMSF) обязательна в горах зимой:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le voyant de pression d'huile est toujours rouge :", q_ru: "Индикатор давления масла всегда красный:", o: ["Vrai", "Faux"], a: 0},
+        {q: "L'ESP peut être désactivé sur certains véhicules :", q_ru: "ESP можно отключить на некоторых авто:", o: ["Vrai (pour démarrer sur neige)", "Faux, c'est interdit"], a: 0},
+        {q: "Le liquide lave-glace peut être remplacé par de l'eau pure en hiver :", q_ru: "Зимой можно залить обычную воду вместо омывайки:", o: ["Faux (risque de gel)", "Vrai"], a: 0},     {q: "Un policier de profil (bras tendus) m'autorise à passer :", q_ru: "Полицейский стоит боком (руки вытянуты) — это значит:", o: ["Je passe (le passage est ouvert)", "Je m'arrête"], a: 0},
+        {q: "Un policier de face (bras levé) m'oblige à :", q_ru: "Полицейский стоит лицом (рука поднята вверх):", o: ["M'arrêter (équivalent feu rouge)", "Ralentir"], a: 0},
+        {q: "Les ordres d'un policier sont prioritaires sur les feux :", q_ru: "Приказы полицейского главнее светофора:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un agent fait des cercles avec son bras :", q_ru: "Регулировщик делает круговые движения рукой:", o: ["Accélérer", "Ralentir", "S'arrêter"], a: 0},
+        {q: "Un piéton malvoyant porte une canne :", q_ru: "Слабовидящий пешеход несет трость цвета:", o: ["Blanche", "Rouge", "Jaune"], a: 0},
+        {q: "Un gendarme me fait signe de m'arrêter, je dois :", q_ru: "Жандарм подает знак остановиться, я должен:", o: ["M'arrêter immédiatement en sécurité", "Continuer jusqu'au parking"], a: 0},
+        {q: "La sirène d'un véhicule prioritaire s'entend à environ :", q_ru: "Сирену спецтранспорта слышно примерно за:", o: ["200 mètres", "50 mètres", "1 km"], a: 0},
+        {q: "En cas de bouchon, je dois laisser un couloir de secours :", q_ru: "В пробке я должен оставить коридор для спасателей:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le panneau 'Fin de priorité' est un triangle blanc bordé de rouge :", q_ru: "Знак 'Конец приоритета' — это белый треугольник с красной каймой:", o: ["Faux (c'est un losange)", "Vrai"], a: 0},
+        {q: "Une personne âgée traverse lentement, je peux klaxonner :", q_ru: "Пожилой человек идет медленно, можно сигналить:", o: ["Faux", "Vrai"], a: 0},     {q: "Sur autoroute, la voie de gauche sert uniquement au dépassement :", q_ru: "На трассе левая полоса служит только для обгона:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un piéton est autorisé sur la bande d'arrêt d'urgence :", q_ru: "Пешеходу разрешено находиться на аварийной полосе:", o: ["Faux (strictement interdit)", "Vrai (en cas de panne)"], a: 0},
+        {q: "La vitesse minimale sur la voie de gauche sur autoroute est de :", q_ru: "Минимальная скорость в левом ряду на трассе:", o: ["80 km/h", "60 km/h", "100 km/h"], a: 0},
+        {q: "Faire marche arrière sur autoroute retire :", q_ru: "Движение задним ходом на трассе — это минус:", o: ["4 points + suspension", "2 points", "0 point"], a: 0},
+        {q: "La distance entre deux voitures sur autoroute doit être de :", q_ru: "Дистанция между авто на трассе должна быть:", o: ["2 traits de la ligne de rive", "1 trait", "3 traits"], a: 0},
+        {q: "En cas de bouchon sur autoroute, je peux rouler sur la BAU :", q_ru: "В пробке на трассе можно ехать по аварийной полосе (BAU):", o: ["Faux (interdit)", "Vrai"], a: 0},
+        {q: "Le panneau 'Péage' (Toll) annonce :", q_ru: "Знак 'Péage' (Платная дорога) предупреждает о:", o: ["Une zone de paiement", "Une sortie de ville", "Un parking"], a: 0},
+        {q: "La couleur des panneaux d'autoroute en France est :", q_ru: "Цвет указателей автомагистралей во Франции:", o: ["Bleue", "Verte", "Blanche"], a: 0},
+        {q: "La couleur des panneaux de routes nationales est :", q_ru: "Цвет указателей национальных дорог:", o: ["Verte", "Bleue", "Jaune"], a: 0},
+        {q: "Une ligne de rive continue à gauche sur autoroute signifie :", q_ru: "Сплошная линия края дороги слева на трассе означает:", o: ["Terre-plein central (séparateur)", "Une zone de travaux"], a: 0},       {q: "Le marquage au sol pour les cyclistes (vélo peint) est :", q_ru: "Рисунок велосипеда на асфальте — это:", o: ["Une indication", "Une interdiction", "Une obligation"], a: 0},
+        {q: "Un radar de feu rouge flashe aussi si je passe à l'orange :", q_ru: "Радар на светофоре щелкает, если ехать на желтый:", o: ["Faux (seulement au rouge)", "Vrai"], a: 0},
+        {q: "La nuit, sans éclairage, je dois porter un gilet jaune si je sors du véhicule :", q_ru: "Ночью без освещения я обязан надеть жилет, если вышел из машины:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le certificat d'assurance (vignette) doit être visible :", q_ru: "Страховая наклейка (виньетка) должна быть видна:", o: ["Sur le pare-brise", "Dans la boîte à gants", "Sur la plaque"], a: 0},
+        {q: "Je peux utiliser mes feux de brouillard avant en cas de forte pluie :", q_ru: "Можно ли включать передние туманки в сильный дождь:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un voyant bleu sur le tableau de bord correspond aux :", q_ru: "Синяя лампочка на приборной панели — это:", o: ["Feux de route", "Feux de croisement", "Feux de position"], a: 0},
+        {q: "Le temps de réaction est-il influencé par l'état des pneus ?", q_ru: "Влияет ли состояние шин на время реакции водителя?", o: ["Non (seulement sur le freinage)", "Oui"], a: 0},
+        {q: "Sur autoroute, les bornes d'appel d'urgence sont situées tous les :", q_ru: "Оранжевые телефоны SOS на трассе стоят каждые:", o: ["2 km", "5 km", "10 km"], a: 0},
+        {q: "Un pneu 'galette' (roue de secours temporaire) limite la vitesse à :", q_ru: "Запаска-докатка ограничивает скорость до:", o: ["80 km/h", "50 km/h", "130 km/h"], a: 0},
+        {q: "L'alcool est responsable d'environ 1 accident mortel sur :", q_ru: "Алкоголь — причина каждого ... смертельного ДТП:", o: ["3", "10", "5"], a: 0},       {q: "Un panneau triangulaire à fond jaune indique un danger temporaire :", q_ru: "Треугольный знак на желтом фоне означает временную опасность:", o: ["Vrai (travaux)", "Faux"], a: 0},
+        {q: "Le panneau 'Cédez le passage' m'oblige à ralentir :", q_ru: "Знак 'Уступи дорогу' обязывает меня снизить скорость:", o: ["Vrai", "Faux"], a: 0},
+        {q: "En présence d'un panneau 'Fin de priorité', je retrouve la priorité à droite :", q_ru: "При знаке 'Конец главной дороги' я возвращаюсь к правилу 'помеха справа':", o: ["Vrai", "Faux"], a: 0},
+        {q: "La vitesse est limitée à 30 km/h sur tout un quartier si le panneau est :", q_ru: "Скорость ограничена до 30 во всем квартале, если знак:", o: ["Carré (Zone 30)", "Rond"], a: 0},
+        {q: "Un panneau de forme losange jaune signifie route prioritaire :", q_ru: "Желтый ромб означает главную дорогу:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le panneau 'Interdiction de dépasser' prend fin à la prochaine intersection :", q_ru: "Знак 'Обгон запрещен' действует до следующего перекрестка:", o: ["Faux (sauf si panneau de fin)", "Vrai"], a: 0},
+        {q: "Un panneau de direction bleu concerne l'autoroute :", q_ru: "Синий указатель направления относится к трассе:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un panneau de direction blanc concerne une direction locale :", q_ru: "Белый указатель направления относится к местным объектам:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le marquage au sol 'BUS' m'autorise à rouler si je tourne à droite :", q_ru: "Надпись 'BUS' разрешает мне ехать там, если я поворачиваю направо:", o: ["Faux", "Vrai"], a: 0},
+        {q: "La vitesse sur périphérique parisien est limitée à :", q_ru: "Скорость на парижской кольцевой (périphérique) ограничена до:", o: ["70 km/h (souvent)", "90 km/h", "50 km/h"], a: 0},      {q: "La nuit, je croise un véhicule, je dois passer en :", q_ru: "Ночью при встречном разъезде я должен переключиться на:", o: ["Feux de croisement", "Feux de route", "Feux de position"], a: 0},
+        {q: "Mes feux de route éblouissent, je risque une amende :", q_ru: "Мой дальний свет слепит других, мне грозит штраф:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le tunnel est éclairé, je dois quand même allumer mes feux :", q_ru: "Тоннель освещен, нужно ли все равно включать свет:", o: ["Oui (obligatoire)", "Non, c'est facultatif"], a: 0},
+        {q: "En cas de brouillard, je peux allumer mes feux de route :", q_ru: "В тумане можно ли включать дальний свет:", o: ["Faux (risque d'auto-éblouissement)", "Vrai"], a: 0},
+        {q: "La pluie tombe fort, je peux mettre les feux de brouillard ARRIÈRE :", q_ru: "Сильный дождь, можно ли включить ЗАДНИЕ туманки:", o: ["Faux (interdit, ça éblouit)", "Vrai"], a: 0},
+        {q: "La neige tombe, je peux mettre les feux de brouillard ARRIÈRE :", q_ru: "Идет снег, можно ли включить ЗАДНИЕ туманки:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Je circule en ville avec un éclairage public continu, j'utilise :", q_ru: "Еду в городе с хорошим освещением, использую:", o: ["Feux de croisement (ou position)", "Feux de route"], a: 0},
+        {q: "L'allumage automatique des feux se déclenche grâce à :", q_ru: "Автосвет включается благодаря:", o: ["Un capteur de luminosité", "La vitesse", "L'heure"], a: 0},
+        {q: "Nettoyer ses phares sales permet de gagner en visibilité :", q_ru: "Чистка фар улучшает видимость:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un seul phare défectueux peut entraîner l'immobilisation du véhicule :", q_ru: "Одна нерабочая фара может привести к аресту машины:", o: ["Vrai", "Faux"], a: 0},    {q: "Pratiquer l'éco-conduite permet de réduire sa consommation de :", q_ru: "Эко-вождение позволяет снизить расход топлива на:", o: ["15 % environ", "50 %", "5 %"], a: 0},
+        {q: "Changer les rapports de vitesse à bas régime économise du carburant :", q_ru: "Переключение передач на низких оборотах экономит топливо:", o: ["Vrai", "Faux"], a: 0},
+        {q: "L'utilisation de la climatisation augmente la consommation de :", q_ru: "Использование кондиционера увеличивает расход топлива на:", o: ["10 à 20 %", "50 %", "2 %"], a: 0},
+        {q: "Circuler avec des pneus sous-gonflés est dangereux et polluant :", q_ru: "Езда на спущенных шинах опасна и загрязняет среду:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le système Stop & Start coupe le moteur à l'arrêt :", q_ru: "Система Stop & Start выключает двигатель при остановке:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le délai de récupération de 4 points perdus est de :", q_ru: "Срок восстановления 4 потерянных баллов (без нарушений):", o: ["3 ans", "6 mois", "10 ans"], a: 0},
+        {q: "Le permis probatoire possède au départ un capital de :", q_ru: "Ученические права (probatoire) сначала имеют капитал в:", o: ["6 points", "12 points", "8 points"], a: 0},
+        {q: "Conduire avec un taux d'alcool de 0,8 g/l de sang est :", q_ru: "Вождение с уровнем алкоголя 0,8 г/л крови — это:", o: ["Un délit (преступление)", "Une simple amende", "Autorisé"], a: 0},
+        {q: "L'arrêt est une immobilisation momentanée pour charger/décharger :", q_ru: "Остановка — это временная неподвижность для погрузки/выгрузки:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le stationnement en double file est :", q_ru: "Парковка вторым рядом — это:", o: ["Interdit", "Autorisé avec les feux de détresse", "Autorisé pour 5 min"], a: 0},
+        {q: "Un marquage jaune au bord du trottoir (ligne continue) signifie :", q_ru: "Желтая сплошная линия у края тротуара означает:", o: ["Arrêt et stationnement interdits", "Stationnement interdit seulement"], a: 0},
+        {q: "Un marquage jaune en pointillés signifie :", q_ru: "Желтая пунктирная линия означает:", o: ["Stationnement interdit (arrêt autorisé)", "Arrêt interdit"], a: 0},
+        {q: "Je stationne devant une bouche d'incendie, je risque :", q_ru: "Я паркуюсь перед пожарным гидрантом, мне грозит:", o: ["Mise en fourrière (эвакуация)", "Rien si je reste dans la voiture", "Une simple remarque"], a: 0},
+        {q: "Le stationnement à contresens en ville (rue à double sens) est :", q_ru: "Парковка против движения в городе (на обычной улице) — это:", o: ["Interdit", "Autorisé"], a: 0},
+        {q: "Dans une rue à sens unique, je peux stationner des deux côtés :", q_ru: "На улице с односторонним движением можно парковаться с обеих сторон:", o: ["Vrai (si la largeur le permet)", "Faux"], a: 0},
+        {q: "Un stationnement est considéré comme 'abusif' après :", q_ru: "Парковка считается 'чрезмерной' (злоупотребление) через:", o: ["7 jours au même endroit", "24 heures", "1 mois"], a: 0},
+        {q: "Le stationnement 'en épi' signifie que la voiture est :", q_ru: "Парковка 'en épi' (ёлочкой) — это когда машина стоит:", o: ["En biais (под углом)", "Parallèle au trottoir", "Perpendiculaire"], a: 0},
+        {q: "Le disque de stationnement est utilisé en zone :", q_ru: "Парковочный диск используется в зоне:", o: ["Bleue", "Verte", "Rouge"], a: 0},       {q: "En cas de vente de ma voiture, je dois remettre le certificat de cession :", q_ru: "В случае продажи авто я должен передать сертификат о передаче:", o: ["Sous 15 jours", "Immédiatement", "Sous 1 mois"], a: 1},
+        {q: "La carte grise est aussi appelée :", q_ru: "Техпаспорт (carte grise) также называется:", o: ["Certificat d'immatriculation", "Permis de conduire", "Assurance"], a: 0},
+        {q: "Si je change d'adresse, je dois mettre à jour ma carte grise sous :", q_ru: "При смене адреса нужно обновить техпаспорт в течение:", o: ["1 mois", "15 jours", "6 mois"], a: 0},
+        {q: "Le constat amiable est obligatoire après un accident :", q_ru: "Заполнение европротокола (constat) обязательно после ДТП:", o: ["Faux (fortement conseillé mais pas obligatoire)", "Vrai"], a: 0},
+        {q: "Conduire sans assurance est un délit :", q_ru: "Вождение без страховки — это преступление:", o: ["Vrai", "Faux"], a: 0},
+        {q: "La vignette d'assurance n'est plus obligatoire sur le pare-brise (depuis 2024) :", q_ru: "Наклейка страховки больше не обязательна на стекле (с 2024):", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le permis de conduire est un document officiel d'identité :", q_ru: "Водительские права являются официальным удостоверением личности:", o: ["Vrai", "Faux"], a: 0},
+        {q: "En cas de perte du permis, je dois faire une déclaration de perte à :", q_ru: "При потере прав я должен заявить об этом в:", o: ["La gendarmerie ou police", "La mairie", "L'auto-école"], a: 0},      // ЭКОЛОГИЯ И ТЕХНИКА (1-20)
+        {q: "La pression des pneus se vérifie de préférence à chaud :", q_ru: "Давление в шинах лучше проверять 'на горячую':", o: ["Faux (à froid)", "Vrai"], a: 0},
+        {q: "Un voyant rouge allumé en circulant impose l'arrêt immédiat :", q_ru: "Красная лампочка во время движения требует немедленной остановки:", o: ["Vrai", "Faux"], a: 0},
+        {q: "L'airbag est efficace même sans ceinture de sécurité :", q_ru: "Подушка безопасности эффективна даже без ремня:", o: ["Faux", "Vrai"], a: 0},
+        {q: "Le liquide de refroidissement évite la surchauffe du moteur :", q_ru: "Охлаждающая жидкость предотвращает перегрев двигателя:", o: ["Vrai", "Faux"], a: 0},
+        {q: "L'aquaplaning arrive plus vite si les pneus sont usés :", q_ru: "Аквапланирование наступает быстрее, если шины изношены:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Fumer en conduisant augmente le temps de réaction :", q_ru: "Курение за рулем увеличивает время реакции:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le régulateur de vitesse est conseillé sous une forte pluie :", q_ru: "Круиз-контроль рекомендуется при сильном дожде:", o: ["Faux (risque d'aquaplaning)", "Vrai"], a: 0},
+        {q: "La direction assistée permet de braquer plus facilement :", q_ru: "Усилитель руля позволяет легче поворачивать руль:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Les feux de jour (diurnes) s'allument automatiquement :", q_ru: "Дневные ходовые огни включаются автоматически:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Une batterie faible peut empêcher de démarrer :", q_ru: "Слабый аккумулятор может помешать завестись:", o: ["Vrai", "Faux"], a: 0},
+        {q: "L'entretien régulier réduit la pollution :", q_ru: "Регулярное ТО снижает уровень загрязнения:", o: ["Vrai", "Faux"], a: 0},
+
+        // СИТУАЦИИ И ПРИОРИТЕТЫ (21-50)
+        {q: "Un tramway a toujours la priorité :", q_ru: "Трамвай всегда имеет приоритет:", o: ["Vrai (sauf indications contraires)", "Faux"], a: 0},
+        {q: "Je peux dépasser par la droite si le véhicule devant tourne à gauche :", q_ru: "Можно обогнать справа, если машина впереди поворачивает налево:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le clignotant est obligatoire même s'il n'y a personne :", q_ru: "Поворотник обязателен, даже если никого нет:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Dans un rond-point à deux voies, je reste à droite pour aller en face :", q_ru: "На кругу с 2 полосами я остаюсь справа, чтобы ехать прямо:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le marquage 'ZEBRA' est autorisé pour faire demi-tour :", q_ru: "Разметка 'Зебра' (штриховка) разрешена для разворота:", o: ["Faux", "Vrai"], a: 0},
+        {q: "Une flèche de rabattement m'annonce une ligne continue :", q_ru: "Стрелка перестроения предупреждает о сплошной линии:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Je peux franchir une ligne continue pour dépasser un cycliste (si visibilité OK) :", q_ru: "Можно пересечь сплошную для обгона велосипедиста (при видимости):", o: ["Vrai (depuis peu en France)", "Faux"], a: 0},
+        {q: "Un feu jaune clignotant en bas remplace le feu vert :", q_ru: "Мигающий желтый снизу заменяет зеленый:", o: ["Vrai (prudence)", "Faux"], a: 0},
+        {q: "Le panneau 'Stop' impose un arrêt des roues complet :", q_ru: "Знак 'Стоп' требует полной остановки колес:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Je peux m'arrêter sur un emplacement de bus pour téléphoner :", q_ru: "Можно ли встать на остановке автобуса, чтобы позвонить:", o: ["Faux", "Vrai"], a: 0},
+        {q: "Le port de la ceinture est obligatoire pour tous les passagers :", q_ru: "Ремень обязателен для всех пассажиров:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un cycliste peut rouler sur le trottoir s'il a plus de 8 ans :", q_ru: "Велосипедист может ехать по тротуару, если ему больше 8 лет:", o: ["Faux (maximum 8 ans)", "Vrai"], a: 0},
+        {q: "Un angle mort est une zone non visible dans les rétroviseurs :", q_ru: "Слепая зона — это зона, не видимая в зеркала:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Regarder loin devant permet d'anticiper les dangers :", q_ru: "Взгляд далеко вперед позволяет предвидеть опасность:", o: ["Vrai", "Faux"], a: 0},
+        {q: "En cas de verglas, la distance de freinage est multipliée par :", q_ru: "При гололеде тормозной путь увеличивается в:", o: ["10", "2", "4"], a: 0},
+        {q: "L'alcool passe plus vite dans le sang si on est à jeun :", q_ru: "Алкоголь быстрее попадает в кровь на пустой желудок:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un 'SAM' est la personne qui conduit et ne boit pas :", q_ru: "SAM — это человек, который везет и не пьет:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le cannabis est autorisé si on conduit doucement :", q_ru: "Каннабис разрешен, если ехать медленно:", o: ["Faux (strictement interdit)", "Vrai"], a: 0},
+        {q: "Téléphoner avec un kit mains-libres (oreillette) est autorisé :", q_ru: "Разговор через гарнитуру (наушник) разрешен:", o: ["Faux (interdit en France)", "Vrai"], a: 0},
+        {q: "Écouter de la musique très fort peut masquer les sirènes :", q_ru: "Громкая музыка может заглушить сирены:", o: ["Vrai", "Faux"], a: 0},
+        {q: "La fatigue est la cause de 1 accident sur 3 sur autoroute :", q_ru: "Усталость — причина каждого 3-го ДТП на трассе:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Il faut faire une pause toutes les :", q_ru: "Нужно делать перерыв каждые:", o: ["2 heures", "4 heures", "1 heure"], a: 0},
+        {q: "L'éblouissement peut durer plusieurs secondes :", q_ru: "Ослепление может длиться несколько секунд:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Les médicaments de niveau 3 (triangle rouge) interdisent la conduite :", q_ru: "Лекарства 3 уровня (красный треугольник) запрещают вождение:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un jeune conducteur a 0,2 g/l d'alcool maximum :", q_ru: "У новичка лимит алкоголя 0,2 г/л:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Perdre tous ses points entraîne l'invalidation du permis :", q_ru: "Потеря всех баллов ведет к аннулированию прав:", o: ["Vrai", "Faux"], a: 0},
+
+        // ШТРАФЫ И ПРАВИЛА (51-80)
+        {q: "Griller un feu rouge coûte :", q_ru: "Проезд на красный стоит:", o: ["4 points", "2 points", "6 points"], a: 0},
+        {q: "Un excès de vitesse de moins de 20 km/h coûte :", q_ru: "Превышение скорости менее 20 км/ч стоит:", o: ["1 point", "3 points", "4 points"], a: 0},
+        {q: "Le délit de fuite est passible de prison :", q_ru: "Побег с места ДТП карается тюрьмой:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Une plaque d'immatriculation sale est passible d'une amende :", q_ru: "Грязный номер может привести к штрафу:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Sur autoroute, on ne place pas de triangle si c'est dangereux :", q_ru: "На трассе знак не ставят, если это опасно:", o: ["Vrai", "Faux"], a: 0},
+        {q: "En zone 30, les cyclistes peuvent circuler à contre-sens :", q_ru: "В зоне 30 велосипедисты могут ехать навстречу:", o: ["Vrai (souvent)", "Faux"], a: 0},
+        {q: "Le klaxon est interdit en ville (sauf danger immédiat) :", q_ru: "Сигнал в городе запрещен (кроме опасности):", o: ["Vrai", "Faux"], a: 0},
+        {q: "Les appels de phares sont autorisés pour prévenir d'un danger :", q_ru: "Мигание фарами разрешено для предупреждения об опасности:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Je peux doubler un chasse-neige en action :", q_ru: "Можно обгонять снегоуборочную машину в работе:", o: ["Faux (strictement interdit)", "Vrai"], a: 0},
+        {q: "Un véhicule avec gyrophare bleu et sirène est prioritaire :", q_ru: "Машина с синей мигалкой и сиреной — приоритетная:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un camion de pompiers sans sirène est prioritaire :", q_ru: "Пожарные без сирены — приоритетные:", o: ["Faux", "Vrai"], a: 0},
+        {q: "Appeler le 112 fonctionne dans toute l'Europe :", q_ru: "Номер 112 работает по всей Европе:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Je peux déplacer un blessé grave :", q_ru: "Можно ли двигать тяжело раненого:", o: ["Faux (sauf danger vital immédiat)", "Vrai"], a: 0},
+        {q: "La distance de freinage dépend de l'adhérence :", q_ru: "Тормозной путь зависит от сцепления:", o: ["Vrai", "Faux"], a: 0},
+        {q: "L'énergie cinétique augmente avec le carré de la vitesse :", q_ru: "Кинетическая энергия растет пропорционально квадрату скорости:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Doubler la vitesse multiplie la distance de freinage par :", q_ru: "Удвоение скорости увеличивает тормозной путь в:", o: ["4", "2", "8"], a: 0},
+        {q: "L'ABS réduit la distance de freinage sur sol mouillé :", q_ru: "ABS сокращает тормозной путь на мокрой дороге:", o: ["Faux (il garde le contrôle)", "Vrai"], a: 0},
+        {q: "Une ligne de rive sépare la chaussée de l'accotement :", q_ru: "Линия края дороги отделяет проезжую часть от обочины:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un marquage bleu au sol indique une zone payante :", q_ru: "Синяя разметка на земле означает платную зону:", o: ["Faux (zone disque/limitée)", "Vrai"], a: 0},
+        {q: "La flèche en 'L' au sol indique une direction obligatoire :", q_ru: "Стрелка 'L' на земле указывает обязательное направление:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le panneau rond bleu avec un vélo est une piste obligatoire :", q_ru: "Круглый синий знак с велосипедом — обязательная дорожка:", o: ["Vrai", "Faux"], a: 0},
+
+        // ФИНАЛЬНЫЕ (81-100)
+        {q: "Un pneu neige est marqué :", q_ru: "Зимняя шина маркируется:", o: ["M+S (ou 3PMSF)", "WINTER", "SNOW"], a: 0},
+        {q: "Les chaînes sont obligatoires si le panneau B26 est présent :", q_ru: "Цепи обязательны при знаке B26:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un véhicule électrique est Crit'Air 0 :", q_ru: "Электромобиль — это Crit'Air 0:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le radar automatique a une marge de tolérance :", q_ru: "У автоматического радара есть погрешность:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Une ligne mixte permet de dépasser si les pointillés sont de mon côté :", q_ru: "Смешанная линия позволяет обгон, если пунктир с моей стороны:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un passage à niveau sans barrière est signalé par un feu rouge clignotant :", q_ru: "Переезд без шлагбаума помечается мигающим красным:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le délit d'alcoolémie commence à :", q_ru: "Уголовная ответственность за алкоголь начинается с:", o: ["0,8 g/l", "0,5 g/l", "0,2 g/l"], a: 0},
+        {q: "Une suspension de permis interdit de conduire tout véhicule à moteur :", q_ru: "Лишение прав запрещает вождение любого моторного транспорта:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un stage de récupération de points permet de gagner :", q_ru: "Курсы по восстановлению баллов дают:", o: ["4 points", "6 points", "2 points"], a: 0},
+        {q: "La limitation de vitesse par défaut hors agglomération (2 voies) est :", q_ru: "Скорость по умолчанию вне города (2 полосы) во Франции:", o: ["80 km/h", "90 km/h", "70 km/h"], a: 0},
+        {q: "Une autoroute est limitée à 110 km/h sous la pluie :", q_ru: "Скорость на трассе в дождь:", o: ["110 km/h", "100 km/h", "130 km/h"], a: 0},
+        {q: "Un tunnel peut être interdit aux véhicules transportant des matières dangereuses :", q_ru: "Тоннель может быть запрещен для опасных грузов:", o: ["Vrai", "Faux"], a: 0},
+        {q: "L'indicateur de direction doit être mis avant de freiner :", q_ru: "Поворотник нужно включать ДО торможения:", o: ["Vrai", "Faux"], a: 0},
+        {q: "En cas d'incendie dans un tunnel, je dois laisser les clés sur le contact :", q_ru: "При пожаре в тоннеле нужно оставить ключи в зажигании:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le gilet jaune est obligatoire pour les cyclistes hors agglomération la nuit :", q_ru: "Жилет обязателен велосипедистам вне города ночью:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un enfant de moins de 1m35 doit avoir un siège auto :", q_ru: "Ребенок ниже 1.35м должен иметь автокресло:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le transport d'animaux ne doit pas gêner la vision du conducteur :", q_ru: "Перевозка животных не должна мешать обзору:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le chargement à l'arrière peut dépasser de :", q_ru: "Груз сзади может выступать максимум на:", o: ["3 mètres (avec signalisation)", "1 mètre", "5 mètres"], a: 0},
+        {q: "La largeur maximale d'un véhicule est de :", q_ru: "Максимальная ширина авто (без зеркал):", o: ["2,55 mètres", "2 mètres", "3 mètres"], a: 0},      // ТОННЕЛИ И МОСТЫ (1-15)
+        {q: "Dans un tunnel, je dois garder une distance de sécurité :", q_ru: "В тоннеле я должен соблюдать дистанцию безопасности:", o: ["Même à l'arrêt", "Seulement en roulant", "Si je suis seul"], a: 0},
+        {q: "Les diodes bleues en tunnel aident à garder la distance :", q_ru: "Синие диоды в тоннеле помогают соблюдать дистанцию:", o: ["Vrai (2 diodes entre véhicules)", "Faux"], a: 0},
+        {q: "Faire demi-tour dans un tunnel est :", q_ru: "Разворот в тоннеле:", o: ["Strictement interdit", "Autorisé si c'est vide", "Autorisé aux niches"], a: 0},
+        {q: "En cas de panne en tunnel, je me dirige vers :", q_ru: "В случае поломки в тоннеле я иду к:", o: ["Une issue de secours", "L'entrée du tunnel", "La sortie"], a: 0},
+        {q: "Le signal de détresse (warnings) est obligatoire en cas de ralentissement :", q_ru: "Аварийка обязательна при резком замедлении:", o: ["Vrai", "Faux"], a: 0},
+
+        // ПОГОДА И ВИДИМОСТЬ (16-40)
+        {q: "Par fort brouillard, je peux utiliser les feux de brouillard AR :", q_ru: "В сильный туман можно использовать задние противотуманки:", o: ["Vrai", "Faux"], a: 0},
+        {q: "La neige réduit l'adhérence des pneus :", q_ru: "Снег снижает сцепление шин:", o: ["Vrai", "Faux"], a: 0},
+        {q: "En cas de vent latéral fort, je dois :", q_ru: "При сильном боковом ветре я должен:", o: ["Réduire ma vitesse", "Accélérer", "Rien changer"], a: 0},
+        {q: "Le soleil rasant peut aveugler, je baisse mon pare-soleil :", q_ru: "Низкое солнце может ослепить, я опускаю козырек:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Allumer ses feux de croisement est obligatoire sous la pluie :", q_ru: "Ближний свет обязателен в дождь:", o: ["Vrai", "Faux"], a: 0},
+
+        // ПСИХОЛОГИЯ И СОСТОЯНИЕ (41-65)
+        {q: "L'impatience peut mener à des prises de risque :", q_ru: "Нетерпение может привести к риску:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un conducteur stressé analyse moins bien les situations :", q_ru: "Стрессованный водитель хуже анализирует ситуации:", o: ["Vrai", "Faux"], a: 0},
+        {q: "La courtoisie au volant fluidifie la circulation :", q_ru: "Вежливость за рулем делает движение плавнее:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le manque de sommeil a les mêmes effets que l'alcool :", q_ru: "Недосып влияет так же, как алкоголь:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Fixer un objet du regard rétrécit le champ visuel :", q_ru: "Пристальный взгляд на объект сужает поле зрения:", o: ["Vrai", "Faux"], a: 0},
+
+        // ТЕХНИЧЕСКИЕ ПРОВЕРКИ (66-85)
+        {q: "Vérifier la pression de la roue de secours est utile :", q_ru: "Проверять давление в запаске полезно:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un mauvais parallélisme use les pneus anormalement :", q_ru: "Плохой развал-схождение изнашивает шины:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Les amortisseurs usés rallongent la distance de freinage :", q_ru: "Изношенные амортизаторы увеличивают тормозной путь:", o: ["Vrai", "Faux"], a: 0},
+        {q: "L'huile moteur sert à lubrifier les pièces :", q_ru: "Моторное масло смазывает детали:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Une fuite de liquide de frein est un danger immédiat :", q_ru: "Утечка тормозной жидкости — немедленная опасность:", o: ["Vrai", "Faux"], a: 0},
+
+        // ГРУЗЫ И ПАССАЖИРЫ (86-100)
+        {q: "Un chargement mal attaché peut tomber sur la route :", q_ru: "Плохо закрепленный груз может упасть на дорогу:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Surcharger un véhicule modifie sa tenue de route :", q_ru: "Перегруз машины меняет её устойчивость:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Je peux transporter des passagers dans une caravane en roulant :", q_ru: "Можно ли перевозить людей в прицепе-даче на ходу:", o: ["Faux (interdit)", "Vrai"], a: 0},
+        {q: "Le poids total autorisé en charge est indiqué sur la carte grise (F2) :", q_ru: "Максимальный вес (PTAC) указан в техпаспорте (F2):", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un passager sans ceinture reçoit lui-même l'amende s'il est majeur :", q_ru: "Пассажир без ремня сам платит штраф, если он совершеннолетний:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Utiliser un GPS en conduisant doit se faire vocalement :", q_ru: "Использовать GPS лучше через голосовые команды:", o: ["Vrai", "Faux"], a: 0},
+        {q: "En cas de contrôle, je présente l'original du permis, pas une photo :", q_ru: "При проверке предъявляю оригинал прав, а не фото:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le port de lunettes est obligatoire si la mention est sur le permis :", q_ru: "Очки обязательны, если в правах есть отметка:", o: ["Vrai", "Faux"], a: 0},
+        {q: "La période probatoire dure 2 ans en conduite accompagnée (AAC) :", q_ru: "Испытательный срок длится 2 года при AAC:", o: ["Vrai", "Faux"], a: 0},
+        {q: "La période probatoire dure 3 ans en formation classique :", q_ru: "Испытательный срок длится 3 года при обычном обучении:", o: ["Vrai", "Faux"], a: 0},     // ЛЕКАРСТВА И СОСТОЯНИЕ (1-20)
+        {q: "Le triangle jaune sur un médicament signifie 'Soyez prudent' :", q_ru: "Желтый треугольник на лекарстве означает 'Будьте осторожны':", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le triangle orange interdit de conduire sans l'avis d'un médecin :", q_ru: "Оранжевый треугольник запрещает вождение без консультации врача:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le triangle rouge interdit strictement la conduite :", q_ru: "Красный треугольник строго запрещает вождение:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Les effets secondaires peuvent durer après l'arrêt du traitement :", q_ru: "Побочные эффекты могут длиться и после окончания приема лекарств:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Mélanger alcool et médicaments multiplie les risques :", q_ru: "Смешивание алкоголя и лекарств умножает риски:", o: ["Vrai", "Faux"], a: 0},
+
+        // ЗНАКИ И РАЗМЕТКА (21-50)
+        {q: "Un panneau carré bleu indique une indication (conseil) :", q_ru: "Квадратный синий знак указывает на рекомендацию/совет:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un panneau rond bleu indique une obligation :", q_ru: "Круглый синий знак указывает на обязательство:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un panneau triangulaire borde de rouge indique un danger :", q_ru: "Треугольный знак с красной каймой указывает на опасность:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le danger en ville est placé à 50 mètres du panneau :", q_ru: "Опасность в городе находится в 50 метрах от знака:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le danger hors agglomération est placé à 150 mètres :", q_ru: "Опасность вне города находится в 150 метрах от знака:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Une balise blanche à tête rouge annonce un virage :", q_ru: "Белый столбик с красной шапкой отмечает поворот:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Une balise entièrement blanche annonce une intersection :", q_ru: "Полностью белый столбик отмечает перекресток:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le panneau 'Zone 30' s'applique à toute la zone derrière lui :", q_ru: "Знак 'Зона 30' действует на всю зону за ним:", o: ["Vrai", "Faux"], a: 0},
+
+        // АВТОМАГИСТРАЛИ И СКОРОСТЬ (51-75)
+        {q: "Il est interdit de faire marche arrière sur autoroute :", q_ru: "Сдавать назад на трассе запрещено:", o: ["Vrai", "Faux"], a: 0},
+        {q: "La bande d'arrêt d'urgence est réservée aux secours et pannes :", q_ru: "Техполоса только для экстренных служб и поломок:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un panneau 'Sortie' est toujours placé à droite :", q_ru: "Знак 'Выход' (Sortie) всегда справа:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le péage (Télépéage) permet de passer sans s'arrêter à 30 km/h :", q_ru: "Télépéage позволяет проезжать без остановки на 30 км/ч:", o: ["Vrai", "Faux"], a: 0},
+
+        // ЭКОЛОГИЯ И ДРУГИЕ УЧАСТНИКИ (76-103)
+        {q: "Un bus articulé peut cacher un autre véhicule :", q_ru: "Гармошка автобуса может скрывать другое авто:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Je laisse 1m d'espace pour doubler un vélo en ville :", q_ru: "Я оставляю 1м бокового интервала для обгона велосипеда в городе:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le stationnement sur une place handicapé sans carte coûte :", q_ru: "Парковка на инвалидном месте без карты стоит (штраф):", o: ["135 €", "35 €", "450 €"], a: 0},
+        {q: "La zone ZFE limite l'accès aux véhicules polluants :", q_ru: "Зона ZFE ограничивает доступ грязным автомобилям:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Couper le contact pour un arrêt de plus d'une minute économise du carburant :", q_ru: "Выключение мотора при остановке более 1 минуты экономит топливо:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Vérifier ses rétroviseurs avant d'ouvrir la portière est crucial :", q_ru: "Проверка зеркал перед открытием двери критически важна:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le gilet jaune doit être homologué avec le marquage CE :", q_ru: "Жилет должен иметь маркировку соответствия CE:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un constat amiable doit être envoyé à l'assurance sous :", q_ru: "Европротокол нужно отправить страховщику в течение:", o: ["5 jours ouvrés", "24 heures", "10 jours"], a: 0},
+        {q: "En cas de vol de la voiture, j'ai 2 jours pour déclarer à l'assurance :", q_ru: "При краже авто есть 2 дня, чтобы заявить в страховку:", o: ["Vrai", "Faux"], a: 0},     {q: "Un véhicule de gendarmerie avec gyrophare bleu seul (sans sirène) est :", q_ru: "Машина жандармерии только с мигалкой (без сирены):", o: ["Prioritaire", "À faciliter (нужно поспособствовать)", "Un véhicule normal"], a: 1},
+        {q: "À une intersection sans signalisation, la priorité est :", q_ru: "На перекрестке без знаков приоритет:", o: ["À droite", "À gauche", "Au plus rapide"], a: 0},
+        {q: "Le panneau 'Croix de Saint-André' annonce :", q_ru: "Знак 'Крест Святого Андрея' (X) объявляет:", o: ["Une priorité à droite", "Un virage dangereux", "Une fin d'interdiction"], a: 0},
+        {q: "Un piéton aveugle avec une canne blanche est toujours prioritaire :", q_ru: "Слепой пешеход с белой тростью всегда имеет приоритет:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Une ambulance (SAMU) en intervention est un véhicule :", q_ru: "Скорая помощь (SAMU) на вызове — это транспорт:", o: ["Prioritaire", "Normal", "Lent"], a: 0},
+        {q: "Dans une pente étroite, le véhicule le plus lourd doit reculer :", q_ru: "На узком склоне должен сдавать назад более тяжелый транспорт:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le véhicule qui descend doit toujours faciliter le passage à celui qui monte :", q_ru: "Тот, кто спускается, должен способствовать проезду того, кто поднимается:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Une ligne de stop épaisse signifie que je dois m'arrêter :", q_ru: "Толстая линия стоп означает, что я должен остановиться:", o: ["À la limite de la ligne", "Au niveau du panneau", "Où je veux"], a: 0},
+        {q: "Un feu rouge clignotant interdit le passage :", q_ru: "Мигающий красный свет запрещает проезд:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Je peux m'engager dans un carrefour bouché si mon feu est vert :", q_ru: "Можно ли выезжать на забитый перекресток, если горит зеленый:", o: ["Faux", "Vrai"], a: 0},     {q: "Les feux de route (plein phares) éclairent à au moins :", q_ru: "Дальний свет должен освещать минимум на:", o: ["100 mètres", "50 mètres", "30 mètres"], a: 0},
+        {q: "Les feux de croisement (codes) éclairent à au moins :", q_ru: "Ближний свет должен освещать минимум на:", o: ["30 mètres", "10 mètres", "100 mètres"], a: 0},
+        {q: "Les feux de position seuls permettent de circuler :", q_ru: "Габаритные огни позволяют ехать в одиночку:", o: ["Seulement en ville bien éclairée", "Partout", "Nulle part"], a: 0},
+        {q: "Utiliser les feux de route en croisant un autre véhicule est :", q_ru: "Использовать дальний свет при встречном разъезде:", o: ["Interdit (éblouissement)", "Autorisé", "Conseillé"], a: 0},
+        {q: "Une flèche lumineuse rouge au-dessus d'une voie signifie :", q_ru: "Красная светящаяся стрелка над полосой означает:", o: ["Voie interdite", "Ralentir", "Sortie proche"], a: 0},
+        {q: "Une ligne de rive continue interdit le dépassement par l'accotement :", q_ru: "Сплошная боковая линия запрещает обгон по обочине:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Sur une route à 3 voies, la voie du milieu sert :", q_ru: "На трехполосной дороге средняя полоса служит для:", o: ["Dépassement ou tourner à gauche", "Circuler normalement", "S'arrêter"], a: 0},
+        {q: "Un damier blanc au sol indique une voie réservée aux bus :", q_ru: "Белые клетки (шахматка) на дороге означают полосу для автобусов:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Je peux chevaucher une ligne continue pour éviter un obstacle :", q_ru: "Можно ли наехать на сплошную для объезда препятствия:", o: ["Vrai (avec prudence)", "Faux"], a: 0},
+        {q: "Un feu de brouillard avant peut compléter les feux de route :", q_ru: "Передняя противотуманка может дополнять дальний свет:", o: ["Vrai (sur route étroite/sinueuse)", "Faux"], a: 0},     // ЭКОЛОГИЯ И ПАРКОВКА (1-15)
+        {q: "Le covoiturage permet de réduire les bouchons et la pollution :", q_ru: "Совместное использование авто (карпулинг) уменьшает пробки и загрязнение:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Une voie réservée au covoiturage est signalée par un losange blanc :", q_ru: "Полоса для карпулинга обозначается белым ромбом:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Laisser tourner le moteur à l'arrêt est passible d'une amende :", q_ru: "Работа двигателя на стоянке может караться штрафом:", o: ["Vrai", "Faux"], a: 0},
+        {q: "En zone bleue, le disque de stationnement est obligatoire :", q_ru: "В 'синей зоне' парковочный диск обязателен:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le stationnement unilatéral alterné change de côté le :", q_ru: "Смена стороны парковки при знаке '1-15 / 16-31' происходит:", o: ["15 et le dernier jour du mois", "Tous les matins", "Chaque lundi"], a: 0},
+
+        // ТЕХНИКА И ГРУЗЫ (16-35)
+        {q: "Un pneu trop gonflé réduit la surface de contact avec le sol :", q_ru: "Перекачанная шина уменьшает площадь контакта с дорогой:", o: ["Vrai", "Faux"], a: 0},
+        {q: "La charge maximale sur le toit ne doit pas être dépassée :", q_ru: "Максимальный вес на крыше не должен быть превышен:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un chargement qui dépasse de plus d'un mètre à l'arrière doit avoir un signal :", q_ru: "Груз, выступающий сзади более чем на 1 метр, должен быть помечен:", o: ["Vrai (réfléchissant)", "Faux"], a: 0},
+        {q: "Les rétroviseurs extérieurs doivent être réglés après le siège :", q_ru: "Внешние зеркала настраиваются после регулировки сиденья:", o: ["Vrai", "Faux"], a: 0},
+        {q: "La direction assistée peut durcir si le moteur s'arrête :", q_ru: "Усилитель руля может стать тугим, если мотор заглохнет:", o: ["Vrai", "Faux"], a: 0},
+
+        // ПРАВИЛА И ШТРАФЫ (36-55)
+        {q: "Un radar de feu rouge flashe aussi si on dépasse la ligne d'arrêt :", q_ru: "Радар на светофоре щелкает, если пересечь стоп-линию:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Circuler sans certificat d'assurance (vignette) est une infraction :", q_ru: "Езда без подтверждения страховки — это нарушение:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le refus d'obtempérer peut mener à la prison :", q_ru: "Отказ подчиниться требованиям полиции может привести к тюрьме:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Une borne SOS sur l'autoroute permet de me localiser précisément :", q_ru: "Столб SOS на трассе позволяет точно меня локализовать:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Je dois toujours avoir un éthylotest dans ma voiture (conseillé) :", q_ru: "В машине рекомендуется иметь алкотестер:", o: ["Vrai", "Faux"], a: 0},
+        {q: "En cas de pluie, la vitesse sur route est limitée à 80 au lieu de 90 :", q_ru: "В дождь скорость на дороге ограничена 80 вместо 90:", o: ["Vrai", "Faux"], a: 0},
+        {q: "La distance d'arrêt = distance de réaction + distance de freinage :", q_ru: "Путь остановки = путь реакции + тормозной путь:", o: ["Vrai", "Faux"], a: 0},       {q: "Le marquage au sol de couleur temporaire est de couleur :", q_ru: "Временная разметка на дороге имеет цвет:", o: ["Jaune", "Rouge", "Bleue"], a: 0},
+        {q: "Une ligne de dissuasion permet de dépasser un tracteur :", q_ru: "Линия предупреждения позволяет обогнать трактор:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le voyant de pression d'huile est de couleur :", q_ru: "Лампочка давления масла имеет цвет:", o: ["Rouge", "Orange", "Vert"], a: 0},
+        {q: "Le voyant des feux de route (plein phares) est :", q_ru: "Индикатор дальнего света имеет цвет:", o: ["Bleu", "Vert", "Rouge"], a: 0},
+        {q: "Le voyant des feux de croisement est :", q_ru: "Индикатор ближнего света имеет цвет:", o: ["Vert", "Bleu", "Jaune"], a: 0},
+        {q: "Un pneu lisse (sans sculptures) augmente le risque d'éclatement :", q_ru: "Лысая шина увеличивает риск разрыва:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le permis de conduire a une durée de validité administrative de :", q_ru: "Срок действия пластиковой карточки прав (административный):", o: ["15 ans", "10 ans", "À vie"], a: 0},
+        {q: "Le contrôle technique d'un véhicule GPL est spécifique :", q_ru: "Техосмотр для машин на газе (GPL) имеет свои особенности:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le gilet de haute visibilité doit avoir 2 bandes réfléchissantes :", q_ru: "Светоотражающий жилет должен иметь 2 полоски:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un enfant peut être installé à l'avant si les places arrière sont occupées :", q_ru: "Ребенка можно посадить спереди, если сзади нет мест:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le système ISOFIX sert à fixer les sièges enfants :", q_ru: "Система ISOFIX служит для крепления детских кресел:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un éthylotest chimique a une date de péremption :", q_ru: "У химического алкотестера есть срок годности:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le temps de réaction est plus long la nuit :", q_ru: "Время реакции ночью увеличивается:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Faire des appels de phares pour signaler un radar est interdit :", q_ru: "Мигать фарами, предупреждая о радаре, запрещено:", o: ["Vrai (passible d'amende)", "Faux"], a: 0},
+        {q: "Une rue 'cyclable' donne la priorité aux vélos :", q_ru: "На 'велосипедной улице' приоритет у велосипедов:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le 'tourne-à-droite' cycliste au feu rouge est autorisé si un panneau l'indique :", q_ru: "Поворот направо для велов на красный разрешен при наличии знака:", o: ["Vrai", "Faux"], a: 0},
+        {q: "La distance de sécurité doit être augmentée dans un tunnel :", q_ru: "Дистанцию в тоннеле нужно увеличивать:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un véhicule d'intérêt général bénéficie de facilités de passage :", q_ru: "Транспорт 'общего интереса' имеет право на содействие в проезде:", o: ["Vrai", "Faux"], a: 0},
+        {q: "L'assurance couvre les dégâts si je conduis sous l'emprise de stupéfiants :", q_ru: "Страховка покроет ущерб при езде под наркотиками:", o: ["Faux (exclusion de garantie)", "Vrai"], a: 0},
+        {q: "Un radar 'tronçon' calcule la vitesse moyenne sur une distance :", q_ru: "Радар 'участка' считает среднюю скорость на дистанции:", o: ["Vrai", "Faux"], a: 0},
+        {q: "En cas de neige, les feux de route sont déconseillés :", q_ru: "В снег дальний свет не рекомендуется (ослепляет водителя):", o: ["Vrai", "Faux"], a: 0},
+        {q: "La mention '01' sur le permis impose le port de lunettes :", q_ru: "Отметка '01' в правах обязывает носить очки:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le liquide de frein doit être changé régulièrement :", q_ru: "Тормозную жидкость нужно регулярно менять:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un voyant orange indique une anomalie ou un entretien à prévoir :", q_ru: "Оранжевая лампочка — это аномалия или нужное ТО:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le frein à main agit généralement sur les roues arrière :", q_ru: "Ручник обычно действует на задние колеса:", o: ["Vrai", "Faux"], a: 0},
+        {q: "L'embrayage permet de passer les vitesses :", q_ru: "Сцепление позволяет переключать передачи:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Rouler au point mort en descente est dangereux :", q_ru: "Езда на нейтралке под горку опасна:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le démarrage en côte nécessite l'usage du frein à main ou de l'aide au démarrage :", q_ru: "Старт на подъеме требует ручника или системы помощи:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Une boîte automatique n'a pas de pédale d'embrayage :", q_ru: "В машине с автоматом нет педали сцепления:", o: ["Vrai", "Faux"], a: 0},
+        {q: "La position 'P' sur une boîte auto signifie 'Parking' :", q_ru: "Позиция 'P' на автомате означает Парковку:", o: ["Vrai", "Faux"], a: 0},
+        {q: "La position 'N' signifie 'Neutre' (point mort) :", q_ru: "Позиция 'N' означает Нейтраль:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un moteur diesel rejette des particules fines :", q_ru: "Дизельный мотор выбрасывает микрочастицы:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le filtre à particules (FAP) doit être décrassé sur autoroute :", q_ru: "Сажевый фильтр (FAP) нужно 'прожигать' на трассе:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le carburant E10 contient 10% d'éthanol :", q_ru: "Топливо E10 содержит 10% этанола:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le voyant de préchauffage (diesel) doit s'éteindre avant de démarrer :", q_ru: "Лампочка прогрева (дизель) должна погаснуть перед стартом:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Une batterie se recharge en roulant grâce à l'alternateur :", q_ru: "Аккумулятор заряжается на ходу через генератор:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Vérifier l'état des balais d'essuie-glace est important pour la visibilité :", q_ru: "Проверка дворников важна для видимости:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le klaxon est autorisé en cas de danger immédiat :", q_ru: "Сигнал разрешен при немедленной опасности:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Un refus de priorité à un piéton coûte 6 points :", q_ru: "Непропуск пешехода стоит 6 баллов:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le taux d'alcoolémie limite pour un conducteur expérimenté est 0,5 g/l :", q_ru: "Лимит алкоголя для опытных водителей 0.5 г/л:", o: ["Vrai", "Faux"], a: 0},
+        {q: "L'alcool est éliminé par le foie :", q_ru: "Алкоголь выводится печенью:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le café n'élimine pas l'alcool :", q_ru: "Кофе не выводит алкоголь:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Le stress diminue la concentration :", q_ru: "Стресс снижает концентрацию:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Une alimentation trop lourde favorise la somnolence :", q_ru: "Тяжелая еда способствует сонливости:", o: ["Vrai", "Faux"], a: 0},
+        {q: "Regarder son téléphone 2 secondes à 130 km/h fait parcourir :", q_ru: "Взгляд в телефон на 2 сек при 130 км/ч — это проезд пути в:", o: ["Plus de 70 mètres", "20 mètres", "150 mètres"], a: 0},
+        {q: "Le port de la ceinture de sécurité sauve des vies :", q_ru: "Ношение ремня спасает жизни:", o: ["Vrai", "Faux"], a: 0}
+
+
+        // (Добавь еще 55 любых из предыдущих пачек, если они пропустились)
+
+        // (Добавь еще 65 любых повторов или похожих ситуаций, чтобы дойти до 500)
+
+
+
+
+
+
+
+
+
+
+]; 
+// КОНЕЦ ТВОИХ ВОПРОСОВ
+
+// --- Category mapping ---
+const categories = {
+    speed: { name: "Скорость и правила", color: "#e74c3c", comments: ["ПРАВИЛА И СКОРОСТЬ", "СКОРОСТЬ", "АВТОМАГИСТРАЛИ"] },
+    priority: { name: "Приоритеты", color: "#f39c12", comments: ["ПРИОРИТЕТЫ", "СИТУАЦИИ И ПРИОРИТЕТЫ"] },
+    tech: { name: "Техника и безопасность", color: "#3498db", comments: ["ТЕХНИКА И БЕЗОПАСНОСТЬ", "ТЕХНИЧЕСКИЕ ПРОВЕРКИ", "ТЕХНИКА И ГРУЗЫ"] },
+    health: { name: "Водитель и здоровье", color: "#9b59b6", comments: ["ВОДИТЕЛЬ И ЗДОРОВЬЕ", "ЛЕКАРСТВА И СОСТОЯНИЕ", "ПСИХОЛОГИЯ"] },
+    visibility: { name: "Дорога и видимость", color: "#1abc9c", comments: ["ДОРОГА И ВИДИМОСТЬ", "ПОГОДА И ВИДИМОСТЬ", "ЗНАКИ И РАЗМЕТКА"] },
+    eco: { name: "Эко-вождение", color: "#27ae60", comments: ["ЭКО-ВОЖДЕНИЕ", "ЭКОЛОГИЯ"] },
+    firstaid: { name: "Первая помощь", color: "#e67e22", comments: ["ПЕРВАЯ ПОМОЩЬ"] },
+    admin: { name: "Административное", color: "#34495e", comments: ["АДМИНИСТРАТИВНОЕ", "ШТРАФЫ И ПРАВИЛА", "ГРУЗЫ И ПАССАЖИРЫ", "ФИНАЛЬНЫЕ", "ЛОВУШКИ"] }
+};
+
+// Tag each question with a category
+function tagQuestions() {
+    let currentCat = "admin";
+    const src = document.querySelector("script").textContent;
+    const lines = src.split("\n");
+    let qIndex = 0;
+    for (const line of lines) {
+        const commentMatch = line.match(/\/\/\s*---?\s*(.*?)\s*---?\s*$/) || line.match(/\/\/\s*(.*(?:ПРАВИЛА|ПРИОРИТЕТ|ТЕХНИК|ВОДИТЕЛ|ДОРОГА|ЭКО|ПЕРВАЯ|АДМИН|ШТРАФ|ЛОВУШ|ФИНАЛ|ЭКОЛОГИ|ПОГОД|ЗНАКИ|ЛЕКАРСТВ|ПСИХОЛОГИ|АВТОМАГИСТРАЛ|ГРУЗЫ|ТОННЕЛ|СИТУАЦИ).*)/i);
+        if (commentMatch) {
+            const text = commentMatch[1].toUpperCase();
+            for (const [key, cat] of Object.entries(categories)) {
+                if (cat.comments.some(c => text.includes(c))) { currentCat = key; break; }
+            }
+        }
+        if (line.includes("{q:") && qIndex < questions.length) {
+            questions[qIndex]._cat = currentCat;
+            qIndex++;
+        }
+    }
+    // Fill any untagged
+    for (const q of questions) { if (!q._cat) q._cat = "admin"; }
+}
+tagQuestions();
+
+// --- Sound effects (Web Audio API) ---
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+let audioCtx;
+function getAudioCtx() {
+    if (!audioCtx) audioCtx = new AudioCtx();
+    return audioCtx;
+}
+
+function playCorrectSound() {
+    const ctx = getAudioCtx();
+    const now = ctx.currentTime;
+
+    // Pleasant two-tone chime
+    [523.25, 783.99].forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.3, now + i * 0.15);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.15 + 0.5);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now + i * 0.15);
+        osc.stop(now + i * 0.15 + 0.5);
+    });
+}
+
+function playWrongSound() {
+    const ctx = getAudioCtx();
+    const now = ctx.currentTime;
+
+    // Tire screech (filtered noise)
+    const buf = ctx.createBuffer(1, ctx.sampleRate * 0.6, ctx.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+
+    const noise = ctx.createBufferSource();
+    noise.buffer = buf;
+
+    const bp = ctx.createBiquadFilter();
+    bp.type = "bandpass";
+    bp.frequency.value = 3000;
+    bp.Q.value = 5;
+    bp.frequency.setValueAtTime(4000, now);
+    bp.frequency.exponentialRampToValueAtTime(1500, now + 0.5);
+
+    const screechGain = ctx.createGain();
+    screechGain.gain.setValueAtTime(0.4, now);
+    screechGain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+
+    noise.connect(bp);
+    bp.connect(screechGain);
+    screechGain.connect(ctx.destination);
+    noise.start(now);
+    noise.stop(now + 0.6);
+
+    // Crash impact
+    const impactBuf = ctx.createBuffer(1, ctx.sampleRate * 0.3, ctx.sampleRate);
+    const impactData = impactBuf.getChannelData(0);
+    for (let i = 0; i < impactData.length; i++) impactData[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.05));
+
+    const impact = ctx.createBufferSource();
+    impact.buffer = impactBuf;
+
+    const lp = ctx.createBiquadFilter();
+    lp.type = "lowpass";
+    lp.frequency.value = 800;
+
+    const impactGain = ctx.createGain();
+    impactGain.gain.setValueAtTime(0.6, now + 0.35);
+    impactGain.gain.exponentialRampToValueAtTime(0.001, now + 0.65);
+
+    impact.connect(lp);
+    lp.connect(impactGain);
+    impactGain.connect(ctx.destination);
+    impact.start(now + 0.35);
+    impact.stop(now + 0.65);
+}
+
+// --- State ---
+let currentQ = 0;
+let score = 0;
+let wrongCount = 0;
+let answered = false;
+let examQuestions = [];
+let wrongQuestions = [];
+let timerInterval = null;
+let timeLeft = 20 * 60;
+
+// --- LocalStorage mistakes ---
+function getMistakes() {
+    try { return JSON.parse(localStorage.getItem("pdd_mistakes") || "[]"); } catch { return []; }
+}
+function saveMistake(q) {
+    const m = getMistakes();
+    if (!m.find(x => x.q === q.q)) { m.push({ q: q.q, q_ru: q.q_ru, o: q.o, a: q.a, _cat: q._cat }); }
+    localStorage.setItem("pdd_mistakes", JSON.stringify(m));
+}
+function removeMistake(q) {
+    const m = getMistakes().filter(x => x.q !== q.q);
+    localStorage.setItem("pdd_mistakes", JSON.stringify(m));
+}
+function updateMistakesUI() {
+    const m = getMistakes();
+    const info = document.getElementById("mistakes-info");
+    const count = document.getElementById("mistakes-count");
+    if (m.length > 0) { info.style.display = "block"; count.textContent = m.length; }
+    else { info.style.display = "none"; }
+}
+
+// --- Timer ---
+function startTimer() {
+    if (!document.getElementById("timer-toggle").checked) {
+        document.getElementById("timer-display").textContent = "";
+        return;
+    }
+    timeLeft = 20 * 60;
+    updateTimerDisplay();
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+        if (timeLeft <= 0) { clearInterval(timerInterval); endExam(); }
+    }, 1000);
+}
+function updateTimerDisplay() {
+    const m = Math.floor(timeLeft / 60);
+    const s = timeLeft % 60;
+    const el = document.getElementById("timer-display");
+    el.textContent = `${m}:${s.toString().padStart(2, "0")}`;
+    el.classList.toggle("warning", timeLeft <= 60);
+}
+function stopTimer() { clearInterval(timerInterval); }
+
+// --- Exam setup ---
+function setupExam(qs) {
+    examQuestions = [...qs].sort(() => Math.random() - 0.5).slice(0, 40);
+    currentQ = 0; score = 0; wrongCount = 0; wrongQuestions = [];
+    document.getElementById("q-total").textContent = examQuestions.length;
+    document.getElementById("score").textContent = "0";
+    document.getElementById("wrong-count").textContent = "0";
+    updateProgress();
+}
+
+function getFilteredQuestions() {
+    const cat = document.getElementById("category-select").value;
+    if (cat === "all") return questions;
+    return questions.filter(q => q._cat === cat);
+}
+
+// --- UI ---
+function showScreen(id) {
+    ["start-screen", "quiz-screen", "results-screen"].forEach(s => {
+        document.getElementById(s).style.display = s === id ? "block" : "none";
+    });
+}
+
+function updateProgress() {
+    const pct = examQuestions.length > 0 ? ((currentQ) / examQuestions.length) * 100 : 0;
+    document.getElementById("progress-bar").style.width = pct + "%";
+}
+
+function showQuestion() {
+    answered = false;
+    const item = examQuestions[currentQ];
+    document.getElementById("q-num").textContent = currentQ + 1;
+    document.getElementById("question").textContent = item.q;
+    document.getElementById("options").innerHTML = "";
+    document.getElementById("hint-text").style.display = "none";
+    document.getElementById("next-btn").style.display = "none";
+    updateProgress();
+
+    // Category badge
+    const badge = document.getElementById("category-badge");
+    const cat = categories[item._cat];
+    if (cat) {
+        badge.textContent = cat.name;
+        badge.style.background = cat.color;
+        badge.style.display = "inline-block";
+    } else {
+        badge.style.display = "none";
+    }
+
+    // Shuffle options for display (keep track of correct)
+    const indices = item.o.map((_, i) => i);
+    indices.sort(() => Math.random() - 0.5);
+
+    indices.forEach((origIdx, displayIdx) => {
+        const btn = document.createElement("button");
+        btn.textContent = item.o[origIdx];
+        btn.classList.add("btn");
+        btn.style.animationDelay = (displayIdx * 0.05) + "s";
+        btn.onclick = () => checkAnswer(origIdx, btn);
+        document.getElementById("options").appendChild(btn);
+    });
+}
+
+function checkAnswer(idx, clickedBtn) {
+    if (answered) return;
+    answered = true;
+    const item = examQuestions[currentQ];
+    const buttons = document.getElementById("options").querySelectorAll(".btn");
+
+    buttons.forEach(b => b.classList.add("disabled"));
+
+    if (idx === item.a) {
+        score++;
+        clickedBtn.classList.add("correct");
+        removeMistake(item);
+        playCorrectSound();
+    } else {
+        wrongCount++;
+        clickedBtn.classList.add("wrong");
+        wrongQuestions.push(item);
+        saveMistake(item);
+        playWrongSound();
+        // Highlight correct
+        buttons.forEach(b => {
+            if (b.textContent === item.o[item.a]) b.classList.add("correct");
+        });
+    }
+    document.getElementById("score").textContent = score;
+    document.getElementById("wrong-count").textContent = wrongCount;
+    document.getElementById("next-btn").style.display = "block";
+}
+
+function endExam() {
+    stopTimer();
+    showScreen("results-screen");
+
+    const total = examQuestions.length;
+    const passed = score >= Math.ceil(total * 0.875); // 35/40
+    document.getElementById("results-title").textContent = passed ? "Экзамен сдан!" : "Не сдан";
+    document.getElementById("results-score").textContent = score;
+    document.getElementById("results-total").textContent = total;
+
+    const circle = document.getElementById("results-circle");
+    circle.className = passed ? "result-pass" : "result-fail";
+
+    const pct = Math.round((score / total) * 100);
+    document.getElementById("results-stats").innerHTML =
+        `<div>Правильных: <b>${score}</b> (${pct}%)</div>` +
+        `<div>Ошибок: <b>${wrongCount}</b></div>` +
+        `<div>Порог сдачи: <b>${Math.ceil(total * 0.875)}/${total}</b></div>`;
+
+    const retryBtn = document.getElementById("retry-wrong-btn");
+    if (wrongQuestions.length > 0) {
+        retryBtn.style.display = "inline-block";
+        retryBtn.textContent = `Повторить ошибки (${wrongQuestions.length})`;
+    } else {
+        retryBtn.style.display = "none";
+    }
+}
+
+// --- Events ---
+document.getElementById("hint-btn").onclick = () => {
+    const hint = document.getElementById("hint-text");
+    hint.textContent = examQuestions[currentQ].q_ru;
+    hint.style.display = "block";
+};
+
+document.getElementById("next-btn").onclick = () => {
+    currentQ++;
+    if (currentQ < examQuestions.length) {
+        showQuestion();
+    } else {
+        endExam();
+    }
+};
+
+document.getElementById("start-btn").onclick = () => {
+    const filtered = getFilteredQuestions();
+    if (filtered.length === 0) { alert("Нет вопросов в этой категории"); return; }
+    setupExam(filtered);
+    showScreen("quiz-screen");
+    startTimer();
+    showQuestion();
+};
+
+document.getElementById("restart-btn").onclick = () => {
+    updateMistakesUI();
+    showScreen("start-screen");
+};
+
+document.getElementById("retry-wrong-btn").onclick = () => {
+    if (wrongQuestions.length === 0) return;
+    examQuestions = [...wrongQuestions].sort(() => Math.random() - 0.5);
+    currentQ = 0; score = 0; wrongCount = 0; wrongQuestions = [];
+    document.getElementById("q-total").textContent = examQuestions.length;
+    document.getElementById("score").textContent = "0";
+    document.getElementById("wrong-count").textContent = "0";
+    showScreen("quiz-screen");
+    startTimer();
+    showQuestion();
+};
+
+document.getElementById("retry-mistakes-btn").onclick = () => {
+    const m = getMistakes();
+    if (m.length === 0) return;
+    examQuestions = [...m].sort(() => Math.random() - 0.5);
+    currentQ = 0; score = 0; wrongCount = 0; wrongQuestions = [];
+    document.getElementById("q-total").textContent = examQuestions.length;
+    document.getElementById("score").textContent = "0";
+    document.getElementById("wrong-count").textContent = "0";
+    showScreen("quiz-screen");
+    startTimer();
+    showQuestion();
+};
+
+document.getElementById("theme-toggle").onclick = () => {
+    document.body.classList.toggle("dark");
+    const isDark = document.body.classList.contains("dark");
+    document.getElementById("theme-toggle").innerHTML = isDark ? "&#9788;" : "&#9790;";
+    localStorage.setItem("pdd_theme", isDark ? "dark" : "light");
+};
+
+// Restore theme
+if (localStorage.getItem("pdd_theme") === "dark") {
+    document.body.classList.add("dark");
+    document.getElementById("theme-toggle").innerHTML = "&#9788;";
+}
+
+// Init
+updateMistakesUI();
+
+// Auto-select category from URL parameter ?cat=
+(function() {
+    const params = new URLSearchParams(window.location.search);
+    const cat = params.get("cat");
+    if (cat) {
+        const sel = document.getElementById("category-select");
+        const opts = Array.from(sel.options).map(o => o.value);
+        if (opts.includes(cat)) {
+            sel.value = cat;
+        }
+    }
+})();
+
+showScreen("start-screen");
+</script>
+</body>
+</html>

@@ -897,7 +897,8 @@ const categories = {
 // Tag each question with a category
 function tagQuestions() {
     let currentCat = "admin";
-    const src = document.querySelector("script").textContent;
+    const scripts = document.querySelectorAll("script");
+    const src = scripts[scripts.length - 1].textContent;
     const lines = src.split("\n");
     let qIndex = 0;
     for (const line of lines) {

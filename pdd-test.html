@@ -294,6 +294,7 @@
 
     <!-- Start Screen -->
     <div id="start-screen">
+        <a href="index.html" style="display:inline-block;margin-bottom:16px;color:#667eea;text-decoration:none;font-size:15px;">&larr; На главную</a>
         <h1>&#128663; Экзамен ПДД</h1>
         <p>Франция &mdash; Code de la Route</p>
         <div id="category-bar">
@@ -333,7 +334,10 @@
         <div id="options"></div>
         <div id="hint-text"></div>
         <button id="hint-btn" class="btn">Перевод (RU)</button>
-        <button id="next-btn" class="btn">Дальше &#8594;</button>
+        <div style="display:flex;gap:10px;margin-top:10px;">
+            <button id="prev-btn" class="btn" style="flex:1;background:#6b7280;">&#8592; Назад</button>
+            <button id="next-btn" class="btn" style="flex:1;">Дальше &#8594;</button>
+        </div>
     </div>
 
     <!-- Results Screen -->
@@ -346,6 +350,7 @@
         <div id="results-stats"></div>
         <button class="results-btn btn-primary" id="restart-btn">&#128260; Новый экзамен</button>
         <button class="results-btn btn-secondary" id="retry-wrong-btn" style="display:none;">&#9888;&#65039; Повторить ошибки</button>
+        <a href="index.html" class="results-btn btn-secondary" style="display:block;margin-top:10px;text-decoration:none;text-align:center;">&#127968; На главную</a>
     </div>
 
     <!-- Ad slot bottom (paste AdSense/YAN code inside) -->
@@ -1185,6 +1190,13 @@ document.getElementById("next-btn").onclick = () => {
         showQuestion();
     } else {
         endExam();
+    }
+};
+
+document.getElementById("prev-btn").onclick = () => {
+    if (currentQ > 0) {
+        currentQ--;
+        showQuestion();
     }
 };
 

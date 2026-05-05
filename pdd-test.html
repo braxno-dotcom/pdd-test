@@ -1089,6 +1089,7 @@ function showQuestion() {
     document.getElementById("hint-text").style.display = "none";
     document.getElementById("next-btn").style.display = "none";
     updateProgress();
+    window.scrollTo({ top: 0, behavior: "smooth" });
 
     // Category badge
     const badge = document.getElementById("category-badge");
@@ -1141,7 +1142,9 @@ function checkAnswer(idx, clickedBtn) {
     }
     document.getElementById("score").textContent = score;
     document.getElementById("wrong-count").textContent = wrongCount;
-    document.getElementById("next-btn").style.display = "block";
+    const nextBtn = document.getElementById("next-btn");
+    nextBtn.style.display = "block";
+    nextBtn.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
 function endExam() {

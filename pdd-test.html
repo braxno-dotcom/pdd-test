@@ -931,12 +931,17 @@ tagQuestions();
 const AudioCtx = window.AudioContext || window.webkitAudioContext;
 let audioCtx;
 function getAudioCtx() {
-    if (!audioCtx) audioCtx = new AudioCtx();
+    if (!audioCtx) {
+        if (!AudioCtx) return null;
+        try { audioCtx = new AudioCtx(); } catch (e) { return null; }
+    }
     return audioCtx;
 }
 
 function playCorrectSound() {
+    try {
     const ctx = getAudioCtx();
+    if (!ctx) return;
     const now = ctx.currentTime;
 
     // Pleasant two-tone chime
@@ -952,10 +957,13 @@ function playCorrectSound() {
         osc.start(now + i * 0.15);
         osc.stop(now + i * 0.15 + 0.5);
     });
+    } catch (e) { /* audio failure shouldn't break quiz */ }
 }
 
 function playWrongSound() {
+    try {
     const ctx = getAudioCtx();
+    if (!ctx) return;
     const now = ctx.currentTime;
 
     // Tire screech (filtered noise)
@@ -1004,6 +1012,7 @@ function playWrongSound() {
     impactGain.connect(ctx.destination);
     impact.start(now + 0.35);
     impact.stop(now + 0.65);
+    } catch (e) { /* audio failure shouldn't break quiz */ }
 }
 
 // --- State ---
@@ -1021,13 +1030,17 @@ function getMistakes() {
     try { return JSON.parse(localStorage.getItem("pdd_mistakes") || "[]"); } catch { return []; }
 }
 function saveMistake(q) {
-    const m = getMistakes();
-    if (!m.find(x => x.q === q.q)) { m.push({ q: q.q, q_ru: q.q_ru, o: q.o, a: q.a, _cat: q._cat }); }
-    localStorage.setItem("pdd_mistakes", JSON.stringify(m));
+    try {
+        const m = getMistakes();
+        if (!m.find(x => x.q === q.q)) { m.push({ q: q.q, q_ru: q.q_ru, o: q.o, a: q.a, _cat: q._cat }); }
+        localStorage.setItem("pdd_mistakes", JSON.stringify(m));
+    } catch (e) { /* localStorage may fail in private mode */ }
 }
 function removeMistake(q) {
-    const m = getMistakes().filter(x => x.q !== q.q);
-    localStorage.setItem("pdd_mistakes", JSON.stringify(m));
+    try {
+        const m = getMistakes().filter(x => x.q !== q.q);
+        localStorage.setItem("pdd_mistakes", JSON.stringify(m));
+    } catch (e) { /* localStorage may fail in private mode */ }
 }
 function updateMistakesUI() {
     const m = getMistakes();

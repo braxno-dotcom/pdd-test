@@ -10,9 +10,9 @@
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F3CE;</text></svg>">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="PDD Test">
-    <title>Тест ПДД Франции на русском — 40 вопросов Code de la Route с переводом</title>
-    <meta name="description" content="Интерактивный тест Code de la Route на русском языке: 40 вопросов как на настоящем экзамене. Дорожные знаки, приоритеты, скорость — с объяснениями на русском.">
-    <meta property="og:title" content="Тест ПДД Франции — Code de la Route на русском">
+    <title>Дорожные знаки Франции на русском — тест со светофорами и разметкой</title>
+    <meta name="description" content="Тест на знание дорожных знаков Франции на русском языке: знаки приоритета, запрещающие, светофоры и разметка. Вопросы как на экзамене Code de la Route, с переводом.">
+    <meta property="og:title" content="Дорожные знаки Франции — тест на русском">
     <meta property="og:description" content="40 вопросов Code de la Route с русским переводом и объяснениями. Бесплатная подготовка к экзамену на права.">
     <meta property="og:type" content="website">
     <meta name="keywords" content="тест code de la route, тест ПДД Франции, code de la route на русском, экзамен на права Франция, дорожные знаки Франция тест">
@@ -304,7 +304,7 @@
     <!-- Start Screen -->
     <div id="start-screen">
         <a href="index.html" style="display:inline-block;margin-bottom:16px;color:#667eea;text-decoration:none;font-size:15px;">&larr; На главную</a>
-        <h1>&#128663; Экзамен ПДД</h1>
+        <h1>&#128678; Дорожные знаки Франции</h1>
         <p>Франция &mdash; Code de la Route</p>
         <div id="category-bar">
             <select id="category-select">
@@ -366,7 +366,7 @@
 
 <script>
 // ВСТАВЬ СВОИ ВОПРОСЫ НИЖЕ ЭТОЙ СТРОКИ
-const questions = [
+let questions = [   // let, а не const: тематическая страница отбирает подмножество ниже
     
     // --- ПРАВИЛА И СКОРОСТЬ ---
     {q: "Sur autoroute par beau temps, la vitesse est limitée à :", q_ru: "На трассе при хорошей погоде скорость ограничена:", o: ["130 km/h", "110 km/h", "100 km/h"], a: 0},
@@ -890,6 +890,15 @@ const questions = [
 ]; 
 // КОНЕЦ ТВОИХ ВОПРОСОВ
 
+
+// ⚠️ Тематическая страница: из общей базы берём только знаки, светофоры и разметку.
+// Отбор идёт поверх массива, поэтому база остаётся ОДНА: пополнили общий тест —
+// пополнилась и эта страница.
+questions = questions.filter(function (v) {
+    var t = (v.q + ' ' + v.q_ru).toLowerCase();
+    return /panneau|signalisation|marquage|ligne (blanche|continue|discontinue)|feu |feux|c[ée]dez|stop|знак|разметк|светофор|полос/.test(t);
+});
+
 // --- Category mapping ---
 const categories = {
     speed: { name: "Скорость и правила", color: "#e74c3c", comments: ["ПРАВИЛА И СКОРОСТЬ", "СКОРОСТЬ", "АВТОМАГИСТРАЛИ"] },
@@ -1317,6 +1326,5 @@ showScreen("start-screen");
   </div>
 </div>
 
-<p style="text-align:center;margin:18px 0"><a href="panneaux.html" style="color:#1a56db;font-weight:600">→ Отдельный тест: дорожные знаки, светофоры и разметка</a></p>
 </body>
 </html>

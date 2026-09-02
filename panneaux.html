@@ -1087,7 +1087,21 @@ function stopTimer() { clearInterval(timerInterval); }
 
 // --- Exam setup ---
 function setupExam(qs) {
-    examQuestions = [...qs].sort(() => Math.random() - 0.5).slice(0, 40);
+    // ⚠️ Перевес в сторону вопросов с тремя вариантами. Причина: из 285 вопросов
+    // «Vrai/Faux» истинны 277 (97 %), и человек, жмущий всегда «Vrai», получает
+    // почти сто процентов, ничего не зная. Перемешивание кнопок тут не помогает —
+    // слово видно на любой кнопке. До того, как утверждения будут переписаны,
+    // держим долю угадываемых вопросов низкой.
+    const mnogo = [...qs].filter(v => v.o.length > 2).sort(() => Math.random() - 0.5);
+    const dva   = [...qs].filter(v => v.o.length <= 2).sort(() => Math.random() - 0.5);
+    const nado  = 40;
+    const cel   = Math.min(25, mnogo.length);          // столько берём трёхвариантных
+    let nabor   = mnogo.slice(0, cel).concat(dva.slice(0, nado - cel));
+    if (nabor.length < nado) {                          // темы, где вопросов мало
+        const ostatok = mnogo.slice(cel).concat(dva.slice(nado - cel));
+        nabor = nabor.concat(ostatok.slice(0, nado - nabor.length));
+    }
+    examQuestions = nabor.sort(() => Math.random() - 0.5).slice(0, nado);
     currentQ = 0; score = 0; wrongCount = 0; wrongQuestions = [];
     document.getElementById("q-total").textContent = examQuestions.length;
     document.getElementById("score").textContent = "0";

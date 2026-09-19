@@ -294,6 +294,16 @@
         #support-bar small { display: block; margin-top: 6px; color: #999; font-size: 11px; }
     #senal-zona { text-align: center; margin: 0 0 12px; }
 #senal-zona svg { width: 120px; height: 120px; }
+
+.tema-texto { max-width: 860px; margin: 24px auto 40px; padding: 0 18px; line-height: 1.65;
+  font-size: 15px; color: #1f2937; }
+.tema-texto h2 { font-size: 20px; margin: 18px 0 10px; color: #0f172a; }
+.tema-texto h3 { font-size: 16px; margin: 16px 0 6px; color: #1a56db; }
+.tema-texto p, .tema-texto li { margin-bottom: 8px; }
+.tema-texto table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 14px; }
+.tema-texto td, .tema-texto th { border-bottom: 1px solid #e2e8f0; padding: 7px 6px; text-align: left; }
+.tema-texto th { color: #64748b; font-weight: 600; }
+.tema-texto .faq b { display: block; margin-top: 10px; }
 </style>
 <script>
 /* Официальные дорожные знаки Испании.
@@ -413,6 +423,7 @@ const MARCAS = {
 Object.assign(SENALES, MARCAS);
 </script>
 <link rel="canonical" href="https://braxno-dotcom.github.io/pdd-test/priorite.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Что такое priorité à droite?", "acceptedAnswer": {"@type": "Answer", "text": "Помеха справа: на перекрёстке без знаков и светофора уступают тому, кто приближается справа."}}, {"@type": "Question", "name": "Кто имеет приоритет на французском круговом?", "acceptedAnswer": {"@type": "Answer", "text": "Обычно те, кто уже едет по кругу — перед въездом стоит знак Cédez le passage. На старых круговых без знака действует помеха справа."}}, {"@type": "Question", "name": "Сколько баллов снимают за непропуск пешехода?", "acceptedAnswer": {"@type": "Answer", "text": "Шесть баллов и штраф 135 евро — это одно из самых дорогих нарушений во Франции."}}]}</script>
 </head>
 <body>
 
@@ -1526,5 +1537,43 @@ showScreen("start-screen");
 
 <p style="flex:0 0 100%;width:100%;text-align:center;margin:20px auto;max-width:760px;line-height:2;font-size:15px"><b>Тесты по темам:</b><br><a href="panneaux.html" style="color:#1a56db">Дорожные знаки, светофоры и разметка</a> · <a href="priorite.html" style="color:#1a56db">Приоритеты и перекрёстки</a> · <a href="vitesse.html" style="color:#1a56db">Скорость и ограничения</a> · <a href="securite.html" style="color:#1a56db">Техника и безопасность</a> · <a href="amendes.html" style="color:#1a56db">Штрафы и баллы</a> · <a href="alcool.html" style="color:#1a56db">Алкоголь и состояние за рулём</a> ·
     <a href="obmen-prav.html">Обмен украинских прав</a></p>
+
+<div class="tema-texto">
+  <h2>Приоритет во Франции: помеха справа и её исключения</h2>
+<p>Франция — страна, где до сих пор жива <strong>priorité à droite</strong>, помеха
+справа. Для приезжих это главная ловушка: в городах встречаются перекрёстки без
+единого знака, где пропускать надо того, кто выезжает справа, даже с второстепенной
+на вид улочки.</p>
+<h3>Когда действует помеха справа</h3>
+<p>Всегда, когда ничего не сказано иначе: нет знаков, нет светофора, светофор мигает
+жёлтым или погас. Отменяют её жёлтый ромб (дорога с приоритетом), знаки STOP
+и Cédez le passage на второстепенной, а также въезд на круговое.</p>
+<h3>Круговое движение</h3>
+<p>На подавляющем большинстве французских круговых перед въездом стоит
+<strong>Cédez le passage</strong>: приоритет у тех, кто уже едет по кругу. Но
+существуют и старые круговые без этого знака — там действует помеха справа, то есть
+въезжающий имеет приоритет. Такие ещё встречаются, и знаменитая площадь Этуаль
+в Париже — как раз этот случай.</p>
+<h3>Кому уступают всегда</h3>
+<ul>
+  <li>Спецтранспорту с включёнными маячком и сиреной.</li>
+  <li>Трамваю: он не может свернуть.</li>
+  <li>Пешеходу на переходе — во Франции за непропуск снимают <strong>6 баллов</strong>.</li>
+  <li>Автобусу, отъезжающему от остановки в населённом пункте.</li>
+</ul>
+<h3>Когда уступаешь ты</h3>
+<p>При выезде с парковки или частной территории, при развороте, при движении задним
+ходом и при въезде на магистраль по полосе разгона. Все эти манёвры начинаются
+с нулевого приоритета.</p>
+  <div class="faq">
+    <h3>Частые вопросы</h3>
+      <b>Что такое priorité à droite?</b>
+      <p>Помеха справа: на перекрёстке без знаков и светофора уступают тому, кто приближается справа.</p>
+      <b>Кто имеет приоритет на французском круговом?</b>
+      <p>Обычно те, кто уже едет по кругу — перед въездом стоит знак Cédez le passage. На старых круговых без знака действует помеха справа.</p>
+      <b>Сколько баллов снимают за непропуск пешехода?</b>
+      <p>Шесть баллов и штраф 135 евро — это одно из самых дорогих нарушений во Франции.</p>
+  </div>
+</div>
 </body>
 </html>

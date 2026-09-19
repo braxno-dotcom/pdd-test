@@ -294,6 +294,16 @@
         #support-bar small { display: block; margin-top: 6px; color: #999; font-size: 11px; }
     #senal-zona { text-align: center; margin: 0 0 12px; }
 #senal-zona svg { width: 120px; height: 120px; }
+
+.tema-texto { max-width: 860px; margin: 24px auto 40px; padding: 0 18px; line-height: 1.65;
+  font-size: 15px; color: #1f2937; }
+.tema-texto h2 { font-size: 20px; margin: 18px 0 10px; color: #0f172a; }
+.tema-texto h3 { font-size: 16px; margin: 16px 0 6px; color: #1a56db; }
+.tema-texto p, .tema-texto li { margin-bottom: 8px; }
+.tema-texto table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 14px; }
+.tema-texto td, .tema-texto th { border-bottom: 1px solid #e2e8f0; padding: 7px 6px; text-align: left; }
+.tema-texto th { color: #64748b; font-weight: 600; }
+.tema-texto .faq b { display: block; margin-top: 10px; }
 </style>
 <script>
 /* Официальные дорожные знаки Испании.
@@ -413,6 +423,7 @@ const MARCAS = {
 Object.assign(SENALES, MARCAS);
 </script>
 <link rel="canonical" href="https://braxno-dotcom.github.io/pdd-test/securite.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Что обязательно возить в машине во Франции?", "acceptedAnswer": {"@type": "Answer", "text": "Светоотражающий жилет в салоне и аварийный треугольник. Огнетушитель, аптечка и алкотестер не обязательны."}}, {"@type": "Question", "name": "До какого возраста ребёнок ездит в кресле?", "acceptedAnswer": {"@type": "Answer", "text": "До 10 лет. До этого возраста дети не ездят на переднем сиденье, кроме оговорённых случаев."}}, {"@type": "Question", "name": "Когда нужны зимние шины?", "acceptedAnswer": {"@type": "Answer", "text": "С 1 ноября по 31 марта в горных департаментах по закону loi montagne — зимние шины или цепи в багажнике."}}]}</script>
 </head>
 <body>
 
@@ -1526,5 +1537,43 @@ showScreen("start-screen");
 
 <p style="flex:0 0 100%;width:100%;text-align:center;margin:20px auto;max-width:760px;line-height:2;font-size:15px"><b>Тесты по темам:</b><br><a href="panneaux.html" style="color:#1a56db">Дорожные знаки, светофоры и разметка</a> · <a href="priorite.html" style="color:#1a56db">Приоритеты и перекрёстки</a> · <a href="vitesse.html" style="color:#1a56db">Скорость и ограничения</a> · <a href="securite.html" style="color:#1a56db">Техника и безопасность</a> · <a href="amendes.html" style="color:#1a56db">Штрафы и баллы</a> · <a href="alcool.html" style="color:#1a56db">Алкоголь и состояние за рулём</a> ·
     <a href="obmen-prav.html">Обмен украинских прав</a></p>
+
+<div class="tema-texto">
+  <h2>Безопасность и оснащение машины во Франции</h2>
+<p>Что обязательно возить с собой и что требуют на дороге — во Франции свой список,
+и он отличается от соседних стран.</p>
+<table>
+  <tr><th>Что</th><th>Обязательно</th></tr>
+  <tr><td>Светоотражающий жилет</td><td>Да, в салоне, а не в багажнике</td></tr>
+  <tr><td>Аварийный треугольник</td><td>Да</td></tr>
+  <tr><td>Огнетушитель в легковой</td><td>Нет</td></tr>
+  <tr><td>Аптечка</td><td>Нет</td></tr>
+  <tr><td>Алкотестер</td><td>Нет, требование отменено в 2020 году</td></tr>
+</table>
+<h3>Жилет лежит в салоне, а не в багажнике</h3>
+<p>Смысл требования именно в этом: жилет надевают <strong>до того</strong>, как выйти
+из машины на дорогу. Если он в багажнике, придётся выйти без него — то есть ровно в тот
+момент, когда он и нужен. За отсутствие жилета или треугольника штраф 135 евро.</p>
+<h3>Дети</h3>
+<p>Во Франции детей возят в удерживающем устройстве <strong>до 10 лет</strong>,
+и до этого возраста они не ездят на переднем сиденье, кроме оговорённых случаев.
+Если кресло ставят против хода вперёд, фронтальную подушку обязательно отключают.</p>
+<h3>Зимние шины: loi montagne</h3>
+<p>С 1 ноября по 31 марта в горных департаментах действует «горный закон»: машина
+должна быть либо на зимних шинах, либо с цепями в багажнике. Зоны обозначены
+знаками на въезде, и список коммун каждый год уточняют.</p>
+<h3>Техосмотр</h3>
+<p>Первый contrôle technique проходят на четвёртом году жизни машины, дальше — каждые
+два года. Просроченный техосмотр это штраф 135 евро и возможная эвакуация.</p>
+  <div class="faq">
+    <h3>Частые вопросы</h3>
+      <b>Что обязательно возить в машине во Франции?</b>
+      <p>Светоотражающий жилет в салоне и аварийный треугольник. Огнетушитель, аптечка и алкотестер не обязательны.</p>
+      <b>До какого возраста ребёнок ездит в кресле?</b>
+      <p>До 10 лет. До этого возраста дети не ездят на переднем сиденье, кроме оговорённых случаев.</p>
+      <b>Когда нужны зимние шины?</b>
+      <p>С 1 ноября по 31 марта в горных департаментах по закону loi montagne — зимние шины или цепи в багажнике.</p>
+  </div>
+</div>
 </body>
 </html>

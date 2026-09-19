@@ -294,6 +294,16 @@
         #support-bar small { display: block; margin-top: 6px; color: #999; font-size: 11px; }
     #senal-zona { text-align: center; margin: 0 0 12px; }
 #senal-zona svg { width: 120px; height: 120px; }
+
+.tema-texto { max-width: 860px; margin: 24px auto 40px; padding: 0 18px; line-height: 1.65;
+  font-size: 15px; color: #1f2937; }
+.tema-texto h2 { font-size: 20px; margin: 18px 0 10px; color: #0f172a; }
+.tema-texto h3 { font-size: 16px; margin: 16px 0 6px; color: #1a56db; }
+.tema-texto p, .tema-texto li { margin-bottom: 8px; }
+.tema-texto table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 14px; }
+.tema-texto td, .tema-texto th { border-bottom: 1px solid #e2e8f0; padding: 7px 6px; text-align: left; }
+.tema-texto th { color: #64748b; font-weight: 600; }
+.tema-texto .faq b { display: block; margin-top: 10px; }
 </style>
 <script>
 /* Официальные дорожные знаки Испании.
@@ -413,6 +423,7 @@ const MARCAS = {
 Object.assign(SENALES, MARCAS);
 </script>
 <link rel="canonical" href="https://braxno-dotcom.github.io/pdd-test/vitesse.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Какая скорость на автомагистрали во Франции?", "acceptedAnswer": {"@type": "Answer", "text": "130 км/ч в сухую погоду и 110 км/ч в дождь. В тумане с видимостью меньше 50 метров — 50 км/ч."}}, {"@type": "Question", "name": "Какие ограничения у начинающего водителя?", "acceptedAnswer": {"@type": "Answer", "text": "110 на автомагистрали, 100 на дорогах 2×2 и 80 на обычных дорогах в течение всего испытательного срока."}}, {"@type": "Question", "name": "Почему на одной дороге 80, а на другой 90?", "acceptedAnswer": {"@type": "Answer", "text": "С 2018 года базовый лимит 80 км/ч, но департаменты вправе вернуть 90 на отдельных участках. Решает знак."}}]}</script>
 </head>
 <body>
 
@@ -1526,5 +1537,44 @@ showScreen("start-screen");
 
 <p style="flex:0 0 100%;width:100%;text-align:center;margin:20px auto;max-width:760px;line-height:2;font-size:15px"><b>Тесты по темам:</b><br><a href="panneaux.html" style="color:#1a56db">Дорожные знаки, светофоры и разметка</a> · <a href="priorite.html" style="color:#1a56db">Приоритеты и перекрёстки</a> · <a href="vitesse.html" style="color:#1a56db">Скорость и ограничения</a> · <a href="securite.html" style="color:#1a56db">Техника и безопасность</a> · <a href="amendes.html" style="color:#1a56db">Штрафы и баллы</a> · <a href="alcool.html" style="color:#1a56db">Алкоголь и состояние за рулём</a> ·
     <a href="obmen-prav.html">Обмен украинских прав</a></p>
+
+<div class="tema-texto">
+  <h2>Ограничения скорости во Франции: полная таблица</h2>
+<p>Скорость во Франции зависит не только от типа дороги, но и от погоды и от стажа
+водителя. Это две вещи, которых нет в большинстве других стран, и именно на них
+чаще всего попадаются приезжие.</p>
+<table>
+  <tr><th>Где</th><th>Сухо</th><th>Дождь</th></tr>
+  <tr><td>Автомагистраль (autoroute)</td><td>130 км/ч</td><td>110 км/ч</td></tr>
+  <tr><td>Разделённая дорога 2×2</td><td>110 км/ч</td><td>100 км/ч</td></tr>
+  <tr><td>Обычная загородная дорога</td><td>80 км/ч</td><td>80 км/ч</td></tr>
+  <tr><td>Населённый пункт</td><td>50 км/ч</td><td>50 км/ч</td></tr>
+  <tr><td>Зона 30 (zone 30)</td><td>30 км/ч</td><td>30 км/ч</td></tr>
+  <tr><td>Зона встречи (zone de rencontre)</td><td>20 км/ч</td><td>20 км/ч</td></tr>
+</table>
+<h3>Дождь снижает лимит автоматически</h3>
+<p>Это ключевое отличие Франции: в дождь на автомагистрали действует 110, а не 130,
+и никаких знаков для этого не требуется. То же на дорогах 2×2 — 100 вместо 110.
+В густом тумане, когда видимость меньше 50 метров, везде действует 50 км/ч,
+включая автомагистраль.</p>
+<h3>Начинающий водитель едет медленнее</h3>
+<p>Во время испытательного срока (permis probatoire) действуют свои лимиты:
+<strong>110 на автомагистрали, 100 на дорогах 2×2 и 80 на обычных</strong>. Срок
+длится три года, а при обучении с сопровождающим — два. Сзади обязателен знак
+<strong>A</strong> на белом круге.</p>
+<h3>80 или 90 — зависит от департамента</h3>
+<p>С 2018 года на обычных загородных дорогах действует 80 км/ч, но департаментам
+разрешили возвращать 90 на отдельных участках, и часть ими воспользовалась. Поэтому
+смотреть надо на знак: единого правила по стране больше нет.</p>
+  <div class="faq">
+    <h3>Частые вопросы</h3>
+      <b>Какая скорость на автомагистрали во Франции?</b>
+      <p>130 км/ч в сухую погоду и 110 км/ч в дождь. В тумане с видимостью меньше 50 метров — 50 км/ч.</p>
+      <b>Какие ограничения у начинающего водителя?</b>
+      <p>110 на автомагистрали, 100 на дорогах 2×2 и 80 на обычных дорогах в течение всего испытательного срока.</p>
+      <b>Почему на одной дороге 80, а на другой 90?</b>
+      <p>С 2018 года базовый лимит 80 км/ч, но департаменты вправе вернуть 90 на отдельных участках. Решает знак.</p>
+  </div>
+</div>
 </body>
 </html>

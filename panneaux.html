@@ -294,6 +294,16 @@
         #support-bar small { display: block; margin-top: 6px; color: #999; font-size: 11px; }
     #senal-zona { text-align: center; margin: 0 0 12px; }
 #senal-zona svg { width: 120px; height: 120px; }
+
+.tema-texto { max-width: 860px; margin: 24px auto 40px; padding: 0 18px; line-height: 1.65;
+  font-size: 15px; color: #1f2937; }
+.tema-texto h2 { font-size: 20px; margin: 18px 0 10px; color: #0f172a; }
+.tema-texto h3 { font-size: 16px; margin: 16px 0 6px; color: #1a56db; }
+.tema-texto p, .tema-texto li { margin-bottom: 8px; }
+.tema-texto table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 14px; }
+.tema-texto td, .tema-texto th { border-bottom: 1px solid #e2e8f0; padding: 7px 6px; text-align: left; }
+.tema-texto th { color: #64748b; font-weight: 600; }
+.tema-texto .faq b { display: block; margin-top: 10px; }
 </style>
 <script>
 /* Официальные дорожные знаки Испании.
@@ -413,6 +423,7 @@ const MARCAS = {
 Object.assign(SENALES, MARCAS);
 </script>
 <link rel="canonical" href="https://braxno-dotcom.github.io/pdd-test/panneaux.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Чем STOP отличается от Cédez le passage?", "acceptedAnswer": {"@type": "Answer", "text": "STOP требует полной остановки перед линией даже на пустом перекрёстке. Cédez le passage требует уступить, но останавливаться необязательно."}}, {"@type": "Question", "name": "Что означает синий круглый знак?", "acceptedAnswer": {"@type": "Answer", "text": "Предписание — то, что делать обязательно. Запрещает круглый знак с красной каймой."}}, {"@type": "Question", "name": "Какие знаки главнее в зоне работ?", "acceptedAnswer": {"@type": "Answer", "text": "Временные знаки на жёлтом фоне. Они отменяют и постоянные знаки, и разметку."}}]}</script>
 </head>
 <body>
 
@@ -1527,5 +1538,42 @@ showScreen("start-screen");
 
 <p style="flex:0 0 100%;width:100%;text-align:center;margin:20px auto;max-width:760px;line-height:2;font-size:15px"><b>Тесты по темам:</b><br><a href="panneaux.html" style="color:#1a56db">Дорожные знаки, светофоры и разметка</a> · <a href="priorite.html" style="color:#1a56db">Приоритеты и перекрёстки</a> · <a href="vitesse.html" style="color:#1a56db">Скорость и ограничения</a> · <a href="securite.html" style="color:#1a56db">Техника и безопасность</a> · <a href="amendes.html" style="color:#1a56db">Штрафы и баллы</a> · <a href="alcool.html" style="color:#1a56db">Алкоголь и состояние за рулём</a> ·
     <a href="obmen-prav.html">Обмен украинских прав</a></p>
+
+<div class="tema-texto">
+  <h2>Дорожные знаки Франции: как читать по форме и цвету</h2>
+<p>Французские знаки идут по Венской конвенции, поэтому форма и цвет говорят о смысле
+раньше, чем картинка внутри. Это и есть самый быстрый способ научиться их читать.</p>
+<table>
+  <tr><th>Как выглядит</th><th>Что означает</th></tr>
+  <tr><td>Треугольник с красной каймой</td><td>Предупреждение об опасности</td></tr>
+  <tr><td>Круг с красной каймой</td><td>Запрет</td></tr>
+  <tr><td>Синий круг</td><td>Предписание: так делать обязательно</td></tr>
+  <tr><td>Синий квадрат</td><td>Указание и информация</td></tr>
+  <tr><td>Жёлтый ромб</td><td>Дорога с приоритетом</td></tr>
+  <tr><td>Восьмиугольник STOP</td><td>Полная остановка</td></tr>
+</table>
+<h3>STOP и Cédez le passage — не одно и то же</h3>
+<p>Восьмиугольный <strong>STOP</strong> требует полной остановки перед линией, даже
+если перекрёсток пуст. Перевёрнутый треугольник <strong>Cédez le passage</strong>
+требует только уступить: если дорога свободна, останавливаться не нужно. На экзамене
+эту пару спрашивают постоянно.</p>
+<h3>Временные знаки главнее постоянных</h3>
+<p>В зоне работ знаки ставят на жёлтом фоне, и они отменяют то, что написано на
+постоянных знаках и на разметке. Порядок старшинства запоминают один раз:
+<strong>регулировщик → светофор → знаки → разметка</strong>.</p>
+<h3>Разметка</h3>
+<p>Сплошную линию нельзя ни пересекать, ни наезжать на неё. Прерывистую пересекать
+можно — для обгона и смены полосы. Жёлтая линия вдоль бордюра означает запрет
+остановки или стоянки, а зигзаг — остановку автобуса.</p>
+  <div class="faq">
+    <h3>Частые вопросы</h3>
+      <b>Чем STOP отличается от Cédez le passage?</b>
+      <p>STOP требует полной остановки перед линией даже на пустом перекрёстке. Cédez le passage требует уступить, но останавливаться необязательно.</p>
+      <b>Что означает синий круглый знак?</b>
+      <p>Предписание — то, что делать обязательно. Запрещает круглый знак с красной каймой.</p>
+      <b>Какие знаки главнее в зоне работ?</b>
+      <p>Временные знаки на жёлтом фоне. Они отменяют и постоянные знаки, и разметку.</p>
+  </div>
+</div>
 </body>
 </html>

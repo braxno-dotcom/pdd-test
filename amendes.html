@@ -294,6 +294,16 @@
         #support-bar small { display: block; margin-top: 6px; color: #999; font-size: 11px; }
     #senal-zona { text-align: center; margin: 0 0 12px; }
 #senal-zona svg { width: 120px; height: 120px; }
+
+.tema-texto { max-width: 860px; margin: 24px auto 40px; padding: 0 18px; line-height: 1.65;
+  font-size: 15px; color: #1f2937; }
+.tema-texto h2 { font-size: 20px; margin: 18px 0 10px; color: #0f172a; }
+.tema-texto h3 { font-size: 16px; margin: 16px 0 6px; color: #1a56db; }
+.tema-texto p, .tema-texto li { margin-bottom: 8px; }
+.tema-texto table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 14px; }
+.tema-texto td, .tema-texto th { border-bottom: 1px solid #e2e8f0; padding: 7px 6px; text-align: left; }
+.tema-texto th { color: #64748b; font-weight: 600; }
+.tema-texto .faq b { display: block; margin-top: 10px; }
 </style>
 <script>
 /* Официальные дорожные знаки Испании.
@@ -413,6 +423,7 @@ const MARCAS = {
 Object.assign(SENALES, MARCAS);
 </script>
 <link rel="canonical" href="https://braxno-dotcom.github.io/pdd-test/amendes.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Сколько баллов у водителя во Франции?", "acceptedAnswer": {"@type": "Answer", "text": "Двенадцать у обычного и шесть у начинающего. У начинающего прибавляется по 2 балла в год без нарушений."}}, {"@type": "Question", "name": "Сколько стоит телефон в руке за рулём?", "acceptedAnswer": {"@type": "Answer", "text": "135 евро и минус 3 балла. При оплате в течение 15 дней штраф снижается до 90 евро."}}, {"@type": "Question", "name": "Как вернуть потерянные баллы?", "acceptedAnswer": {"@type": "Answer", "text": "Сами возвращаются через три года без нарушений. Курс восстановления возвращает до четырёх баллов раз в год."}}]}</script>
 </head>
 <body>
 
@@ -1526,5 +1537,42 @@ showScreen("start-screen");
 
 <p style="flex:0 0 100%;width:100%;text-align:center;margin:20px auto;max-width:760px;line-height:2;font-size:15px"><b>Тесты по темам:</b><br><a href="panneaux.html" style="color:#1a56db">Дорожные знаки, светофоры и разметка</a> · <a href="priorite.html" style="color:#1a56db">Приоритеты и перекрёстки</a> · <a href="vitesse.html" style="color:#1a56db">Скорость и ограничения</a> · <a href="securite.html" style="color:#1a56db">Техника и безопасность</a> · <a href="amendes.html" style="color:#1a56db">Штрафы и баллы</a> · <a href="alcool.html" style="color:#1a56db">Алкоголь и состояние за рулём</a> ·
     <a href="obmen-prav.html">Обмен украинских прав</a></p>
+
+<div class="tema-texto">
+  <h2>Баллы и штрафы во Франции: система permis à points</h2>
+<p>Во Франции баллы не набирают, а теряют. У обычного водителя их <strong>12</strong>,
+у начинающего — <strong>6</strong>, и они прибавляются по мере стажа.</p>
+<table>
+  <tr><th>Нарушение</th><th>Баллы</th><th>Штраф</th></tr>
+  <tr><td>Телефон в руке</td><td>−3</td><td>135 €</td></tr>
+  <tr><td>Непристёгнутый ремень</td><td>−3</td><td>135 €</td></tr>
+  <tr><td>Проезд на красный</td><td>−4</td><td>135 €</td></tr>
+  <tr><td>Непропуск пешехода</td><td>−6</td><td>135 €</td></tr>
+  <tr><td>Алкоголь выше нормы</td><td>−6</td><td>135 € и выше</td></tr>
+  <tr><td>Превышение более чем на 50 км/ч</td><td>−6</td><td>до 1500 €</td></tr>
+</table>
+<h3>Как баллы восстанавливаются</h3>
+<p>У начинающего к шести баллам прибавляется по <strong>2 балла в год</strong> при
+езде без нарушений, а при обучении с сопровождающим — по 3. Через три года (или два
+при conduite accompagnée) баланс достигает двенадцати. Полностью баланс
+восстанавливается сам после <strong>трёх лет</strong> без нарушений, а курс
+восстановления (stage) возвращает до четырёх баллов раз в год.</p>
+<h3>Скидка и сроки</h3>
+<p>Штраф, оплаченный в течение 15 дней (или 30 при оплате онлайн), уменьшается:
+135 евро превращаются в 90. Если тянуть дольше 45 дней, сумма наоборот вырастает
+до 375 евро.</p>
+<h3>Когда баллы кончились</h3>
+<p>Права аннулируются, и получать их приходится заново — с медкомиссией и экзаменом.
+Для водителя на испытательном сроке потеря всех шести баллов означает то же самое.</p>
+  <div class="faq">
+    <h3>Частые вопросы</h3>
+      <b>Сколько баллов у водителя во Франции?</b>
+      <p>Двенадцать у обычного и шесть у начинающего. У начинающего прибавляется по 2 балла в год без нарушений.</p>
+      <b>Сколько стоит телефон в руке за рулём?</b>
+      <p>135 евро и минус 3 балла. При оплате в течение 15 дней штраф снижается до 90 евро.</p>
+      <b>Как вернуть потерянные баллы?</b>
+      <p>Сами возвращаются через три года без нарушений. Курс восстановления возвращает до четырёх баллов раз в год.</p>
+  </div>
+</div>
 </body>
 </html>

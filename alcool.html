@@ -294,6 +294,16 @@
         #support-bar small { display: block; margin-top: 6px; color: #999; font-size: 11px; }
     #senal-zona { text-align: center; margin: 0 0 12px; }
 #senal-zona svg { width: 120px; height: 120px; }
+
+.tema-texto { max-width: 860px; margin: 24px auto 40px; padding: 0 18px; line-height: 1.65;
+  font-size: 15px; color: #1f2937; }
+.tema-texto h2 { font-size: 20px; margin: 18px 0 10px; color: #0f172a; }
+.tema-texto h3 { font-size: 16px; margin: 16px 0 6px; color: #1a56db; }
+.tema-texto p, .tema-texto li { margin-bottom: 8px; }
+.tema-texto table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 14px; }
+.tema-texto td, .tema-texto th { border-bottom: 1px solid #e2e8f0; padding: 7px 6px; text-align: left; }
+.tema-texto th { color: #64748b; font-weight: 600; }
+.tema-texto .faq b { display: block; margin-top: 10px; }
 </style>
 <script>
 /* Официальные дорожные знаки Испании.
@@ -413,6 +423,7 @@ const MARCAS = {
 Object.assign(SENALES, MARCAS);
 </script>
 <link rel="canonical" href="https://braxno-dotcom.github.io/pdd-test/alcool.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Какая норма алкоголя во Франции?", "acceptedAnswer": {"@type": "Answer", "text": "0,5 г/л в крови и 0,25 мг/л в выдыхаемом воздухе. Для начинающих водителей — 0,2 г/л и 0,10 мг/л."}}, {"@type": "Question", "name": "Что будет за 0,9 г/л?", "acceptedAnswer": {"@type": "Answer", "text": "Это уже уголовное дело: до двух лет тюрьмы, штраф до 4500 евро, лишение прав и 6 баллов."}}, {"@type": "Question", "name": "Сколько можно выпить начинающему водителю?", "acceptedAnswer": {"@type": "Answer", "text": "Фактически нисколько: норма 0,2 г/л превышается уже одним бокалом."}}]}</script>
 </head>
 <body>
 
@@ -1526,5 +1537,38 @@ showScreen("start-screen");
 
 <p style="flex:0 0 100%;width:100%;text-align:center;margin:20px auto;max-width:760px;line-height:2;font-size:15px"><b>Тесты по темам:</b><br><a href="panneaux.html" style="color:#1a56db">Дорожные знаки, светофоры и разметка</a> · <a href="priorite.html" style="color:#1a56db">Приоритеты и перекрёстки</a> · <a href="vitesse.html" style="color:#1a56db">Скорость и ограничения</a> · <a href="securite.html" style="color:#1a56db">Техника и безопасность</a> · <a href="amendes.html" style="color:#1a56db">Штрафы и баллы</a> · <a href="alcool.html" style="color:#1a56db">Алкоголь и состояние за рулём</a> ·
     <a href="obmen-prav.html">Обмен украинских прав</a></p>
+
+<div class="tema-texto">
+  <h2>Алкоголь за рулём во Франции: нормы и наказание</h2>
+<p>Французские нормы строже испанских, а для начинающих водителей — строже вдвое.</p>
+<table>
+  <tr><th>Кто за рулём</th><th>Кровь</th><th>Выдыхаемый воздух</th></tr>
+  <tr><td>Обычный водитель</td><td>0,5 г/л</td><td>0,25 мг/л</td></tr>
+  <tr><td>Испытательный срок (permis probatoire)</td><td>0,2 г/л</td><td>0,10 мг/л</td></tr>
+  <tr><td>Водитель автобуса</td><td>0,2 г/л</td><td>0,10 мг/л</td></tr>
+</table>
+<h3>0,2 — это фактически ноль</h3>
+<p>Для начинающего водителя норма 0,2 г/л означает, что нельзя ни бокала: даже один
+может её превысить. Именно так это правило и задумано — «ноль алкоголя» без прямого
+запрета.</p>
+<h3>Где кончается штраф и начинается суд</h3>
+<p>От 0,5 до 0,8 г/л — нарушение: штраф 135 евро и <strong>6 баллов</strong>. От 0,8 г/л
+это уже уголовное дело: до двух лет тюрьмы, штраф до 4500 евро и лишение прав.
+Отказ от проверки наказывается как само превышение.</p>
+<h3>Наркотики и лекарства</h3>
+<p>С наркотиками действует нулевая терпимость: наказывает сам факт наличия в организме.
+Проверяют по слюне на месте. Лекарства, влияющие на вождение, помечают на упаковке
+треугольным значком с машиной — уровней три, и при жёлтом за руль уже осторожно,
+при красном нельзя.</p>
+  <div class="faq">
+    <h3>Частые вопросы</h3>
+      <b>Какая норма алкоголя во Франции?</b>
+      <p>0,5 г/л в крови и 0,25 мг/л в выдыхаемом воздухе. Для начинающих водителей — 0,2 г/л и 0,10 мг/л.</p>
+      <b>Что будет за 0,9 г/л?</b>
+      <p>Это уже уголовное дело: до двух лет тюрьмы, штраф до 4500 евро, лишение прав и 6 баллов.</p>
+      <b>Сколько можно выпить начинающему водителю?</b>
+      <p>Фактически нисколько: норма 0,2 г/л превышается уже одним бокалом.</p>
+  </div>
+</div>
 </body>
 </html>
